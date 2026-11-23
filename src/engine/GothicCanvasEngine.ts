@@ -173,7 +173,7 @@ export class GothicCanvasEngine {
       this.lightCanvas.height = h;
       
       // Calculate dynamic zoom to ensure the game feels expansive and detailed
-      this.zoom = Math.max(2.2, h / 380);
+      this.zoom = Math.max(1.3, h / 650);
     }
   }
 
@@ -249,7 +249,7 @@ export class GothicCanvasEngine {
 
     if (moveX !== 0 || moveY !== 0) {
       const len = Math.hypot(moveX, moveY);
-      const speed = player.stats.speed * 35 * dt;
+      const speed = Math.max(160, (player.stats.speed || 0.1) * 1600) * dt;
       const nextX = player.x + (moveX / len) * speed;
       const nextY = player.y + (moveY / len) * speed;
 
