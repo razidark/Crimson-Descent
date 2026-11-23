@@ -27,7 +27,7 @@ func _ready() -> void:
 	add_to_group("enemies")
 	hp_bar.max_value = max_hp
 	hp_bar.value = current_hp
-	boss_ui.visible = true
+	boss_ui.visible = false # Hidden until player discovers boss chamber
 
 func _physics_process(delta: float) -> void:
 	if not target:
@@ -35,6 +35,17 @@ func _physics_process(delta: float) -> void:
 		if players.size() > 0:
 			target = players[0]
 		return
+
+	var dist = global_position.distance_to(target.global_position)
+	
+	# Only activate and show boss UI when player enters chamber (< 600px away)
+	if dist < 650.0:
+		if not boss_ui.visible:
+			boss_ui.visible = true
+	else:
+		if boss_ui.visible:
+			boss_ui.visible = false
+		return # Idle when player is far away
 
 	# Handle Charge Attack
 	if is_charging:
@@ -66,7 +77,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	# Contact Damage
-	if global_position.distance_to(target.global_position) < 38.0:
+	if dist < 38.0:
 		if target.has_method("take_damage"):
 			target.take_damage(attack_damage * delta)
 

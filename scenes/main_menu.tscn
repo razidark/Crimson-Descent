@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://main_menu_01"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu_script"]
-[ext_resource type="Texture2D" path="res://assets/hero_0.png" id="2_hero_tex"]
+[ext_resource type="Texture2D" path="res://assets/hero_class_0.png" id="2_hero_tex"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0.06, 0.04, 0.08, 1)
@@ -46,12 +46,12 @@ grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
 [node name="Title" type="Label" parent="CenterContainer/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.15, 0.25, 1)
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 46
 text = "CRIMSON DESCENT"
 horizontal_alignment = 1
 
@@ -62,27 +62,37 @@ theme_override_font_sizes/font_size = 18
 text = "Legacy of the Blood Sovereign"
 horizontal_alignment = 1
 
-[node name="HeroIcon" type="TextureRect" parent="CenterContainer/VBox"]
+[node name="ClassContainer" type="VBoxContainer" parent="CenterContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeroIcon" type="TextureRect" parent="CenterContainer/VBox/ClassContainer"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("2_hero_tex")
 stretch_mode = 5
 
+[node name="ClassBtn" type="Button" parent="CenterContainer/VBox/ClassContainer"]
+custom_minimum_size = Vector2(260, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Class: Blood Knight (Click to Change)"
+
 [node name="StartBtn" type="Button" parent="CenterContainer/VBox"]
-custom_minimum_size = Vector2(220, 44)
+custom_minimum_size = Vector2(260, 42)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Begin Descent"
 
 [node name="HowBtn" type="Button" parent="CenterContainer/VBox"]
-custom_minimum_size = Vector2(220, 44)
+custom_minimum_size = Vector2(260, 36)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "How to Play"
 
 [node name="QuitBtn" type="Button" parent="CenterContainer/VBox"]
-custom_minimum_size = Vector2(220, 44)
+custom_minimum_size = Vector2(260, 36)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Exit"
@@ -116,11 +126,11 @@ horizontal_alignment = 1
 [node name="Desc" type="Label" parent="InstructionsPanel/VBox"]
 layout_mode = 2
 text = "• WASD / Arrow Keys: Move
-• Left Click: Crimson Blade Cleave
-• Spacebar: Shadow Dash
-• ESC: Pause Game
-
-Collect Blood Essence from fallen foes to rank up and unlock game-changing Blood Blessings."
+• Left Click: Weapon Attack
+• [Q]: Switch Weapon (Greatsword, Twin Daggers, Bow)
+• [C] or [TAB]: Survival Crafting
+• [1]: Drink Potion  |  [2]: Place Spike Trap
+• ESC: Pause Game"
 autowrap_mode = 2
 
 [node name="CloseBtn" type="Button" parent="InstructionsPanel/VBox"]
