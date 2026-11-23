@@ -7,6 +7,7 @@ extends CharacterBody2D
 var max_hp: float = 100.0
 var current_hp: float = 100.0
 var blood_essence: int = 0
+var kills: int = 0
 var level: int = 1
 var next_level_threshold: int = 5
 
@@ -25,7 +26,10 @@ var slash_scene = preload("res://scenes/slash_arc.tscn")
 @onready var hp_bar = $CanvasLayer/HUD/HealthBar
 @onready var blood_label = $CanvasLayer/HUD/BloodLabel
 @onready var level_label = $CanvasLayer/HUD/LevelLabel
+@onready var kills_label = $CanvasLayer/HUD/KillsLabel
 @onready var upgrade_panel = $CanvasLayer/HUD/UpgradePanel
+@onready var pause_menu = $CanvasLayer/PauseMenu
+@onready var game_over_screen = $CanvasLayer/GameOverScreen
 
 func _ready() -> void:
 	add_to_group("player")
@@ -42,12 +46,39 @@ func _ready() -> void:
 		if btn_leech:
 			btn_leech.pressed.connect(func(): choose_upgrade("leech"))
 
+	if pause_menu:
+		pause_menu.get_node("VBox/ResumeBtn").pressed.connect(toggle_pause)
+		pause_menu.get_node("VBox/RestartBtn").pressed.connect(restart_game)
+		pause_menu.get_node("VBox/QuitBtn").pressed.connect(go_to_main_menu)
+
+	if game_over_screen:
+		game_over_screen.get_node("VBox/RetryBtn").pressed.connect(restart_game)
+		game_over_screen.get_node("VBox/MenuBtn").pressed.connect(go_to_main_menu)
+
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		if not game_over_screen.visible and not upgrade_panel.visible:
+			toggle_pause()
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		attack_melee()
 
+func toggle_pause() -> void:
+	var is_paused = not get_tree().paused
+	get_tree().paused = is_paused
+	pause_menu.visible = is_paused
+
+func restart_game() -> void:
+	get_tree().paused = false
+	Engine.time_scale = 1.0
+	get_tree().reload_current_scene()
+
+func go_to_main_menu() -> void:
+	get_tree().paused = false
+	Engine.time_scale = 1.0
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
 func _physics_process(dt: float) -> void:
-	light.energy = 1.8 + sin(Time.get_ticks_msec() / 200.0) * 0.15
+	light.energy = 1.0 + sin(Time.get_ticks_msec() / 250.0) * 0.1
 	if attack_cooldown > 0.0:
 		attack_cooldown -= dt
 
@@ -78,25 +109,40 @@ func _physics_process(dt: float) -> void:
 	move_and_slide()
 
 func attack_melee() -> void:
-	if attack_cooldown > 0.0 or is_dashing or (upgrade_panel and upgrade_panel.visible):
+	if attack_cooldown > 0.0 or is_dashing or (upgrade_panel and upgrade_panel.visible) or get_tree().paused:
 		return
 	attack_cooldown = 0.25
 
 	var slash = slash_scene.instantiate()
 	var mouse_pos = get_global_mouse_position()
 	var angle = (mouse_pos - global_position).angle()
-	slash.global_position = global_position + Vector2.from_angle(angle) * 40.0
+	slash.global_position = global_position + Vector2.from_angle(angle) * 32.0
 	slash.rotation = angle
 	slash.scale = Vector2(attack_scale, attack_scale)
 	slash.damage = attack_power
 	get_parent().add_child(slash)
 
 func take_damage(amount: float) -> void:
+	if current_hp <= 0:
+		return
 	current_hp = max(0.0, current_hp - amount)
 	update_hud()
 	sprite.modulate = Color(3.0, 0.4, 0.4, 1)
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.12)
+
+	if current_hp <= 0.0:
+		die()
+
+func die() -> void:
+	if game_over_screen:
+		game_over_screen.get_node("VBox/StatsLabel").text = "Slain Enemies: %d\nBlood Gathered: %d\nRank: %d" % [kills, blood_essence, level]
+		game_over_screen.visible = true
+		get_tree().paused = true
+
+func add_kill() -> void:
+	kills += 1
+	update_hud()
 
 func gain_blood(amount: int) -> void:
 	blood_essence += amount
@@ -136,3 +182,5 @@ func update_hud() -> void:
 		blood_label.text = "Blood Essence: %d / %d" % [blood_essence, next_level_threshold]
 	if level_label:
 		level_label.text = "Rank: %d" % level
+	if kills_label:
+		kills_label.text = "Kills: %d" % kills

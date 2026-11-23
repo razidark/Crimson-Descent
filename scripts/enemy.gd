@@ -3,7 +3,7 @@ extends CharacterBody2D
 enum EnemyType { BAT, DEMON_WARRIOR, SKELETON }
 @export var enemy_type: EnemyType = EnemyType.DEMON_WARRIOR
 
-@export var speed: float = 120.0
+@export var speed: float = 115.0
 @export var max_hp: int = 40
 @export var attack_damage: float = 12.0
 var current_hp: int = 40
@@ -22,7 +22,6 @@ func _ready() -> void:
 	hp_bar.visible = false
 
 func _physics_process(delta: float) -> void:
-	# Subtle breath / bobbing animation
 	sprite.position.y = sin(Time.get_ticks_msec() / 100.0) * 2.0
 
 	if not target:
@@ -43,7 +42,7 @@ func _physics_process(delta: float) -> void:
 			if dist < 42.0 and dist > 0.1:
 				separation += (global_position - other.global_position).normalized() * (42.0 - dist)
 
-	var move_dir = (to_player_dir * 1.5 + separation * 0.8).normalized()
+	var move_dir = (to_player_dir * 1.4 + separation * 0.9).normalized()
 	velocity = move_dir * speed
 
 	if move_dir.x < 0:
@@ -54,7 +53,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	# Damage player on contact
-	if global_position.distance_to(target.global_position) < 30.0:
+	if global_position.distance_to(target.global_position) < 26.0:
 		if target.has_method("take_damage"):
 			target.take_damage(attack_damage * delta)
 
@@ -69,6 +68,8 @@ func take_damage(amount: int) -> void:
 	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.15)
 
 	if current_hp <= 0:
+		if target and target.has_method("add_kill"):
+			target.add_kill()
 		spawn_blood_drop()
 		queue_free()
 
