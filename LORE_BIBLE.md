@@ -26,7 +26,7 @@
   - He manifests at **The Hamlet of Lorek**—the lone surface haven resting on the precipice of the abyss.
   - Because his physical body was consumed long ago and his spectral form is tied to the upper ley-lines, he **cannot descend into the deepest circles of the Crimson Rupture** without dissolving into oblivion.
   - Instead, he stands vigilant beside the town's eternal campfire in Lorek, acting as:
-    1. **The Keeper of Ancient History:** Eloquently recounting the wars of Nosgoth, the Pillars, and the truth of Kain's reign.
+	1. **The Keeper of Ancient History:** Eloquently recounting the wars of Nosgoth, the Pillars, and the truth of Kain's reign.
     2. **The Mystic Conduit:** Channeling the **Spectral Blessing** into you before each descent.
     3. **The Purifier of Shards:** Absorbing recovered physical fragments of the Soul Reaver to empower your weapons and evolve your Spectral Reaver arm-blade.
     4. **The Anchor of the Azure Portal:** Maintaining the dimensional tether that pulls you safely back to Lorek when your health or soul-force flickers.
@@ -52,13 +52,13 @@ A colossal, jagged subterranean wound that tore through the crust of Nosgoth, ce
 To explore the deepest possible storytelling, here are three rich, lore-grounded hypotheses for what corrupted Kain and opened the Rupture:
 
 ```
-                      ┌─────────────────────────────────────────┐
-                      │    THE CORRUPTION OF LORD KAIN          │
-                      │     (How the Savior Became the Beast)   │
-                      └────────────────────┬────────────────────┘
-                                           │
-         ┌─────────────────────────────────┼─────────────────────────────────┐
-         ▼                                 ▼                                 ▼
+					  ┌─────────────────────────────────────────┐
+					  │    THE CORRUPTION OF LORD KAIN          │
+					  │     (How the Savior Became the Beast)   │
+					  └────────────────────┬────────────────────┘
+										   │
+		 ┌─────────────────────────────────┼─────────────────────────────────┐
+		 ▼                                 ▼                                 ▼
 ┌───────────────────┐             ┌───────────────────┐             ┌───────────────────┐
 │   HYPOTHESIS A    │             │   HYPOTHESIS B    │             │   HYPOTHESIS C    │
 │  The Elder God's  │             │ The Reaver Shard  │             │ The Siphon of the │

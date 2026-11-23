@@ -1,28 +1,55 @@
-﻿extends CharacterBody2D
+extends CharacterBody2D
 
 @export var speed: float = 240.0
-@export var dash_speed: float = 700.0
-@export var dash_duration: float = 0.2
+@export var dash_speed: float = 750.0
+@export var dash_duration: float = 0.22
+
+var max_hp: float = 100.0
+var current_hp: float = 100.0
+var blood_essence: int = 0
+var level: int = 1
+var next_level_threshold: int = 5
+
+var attack_power: int = 25
+var attack_scale: float = 1.0
 
 var is_dashing: bool = false
 var dash_timer: float = 0.0
 var dash_dir: Vector2 = Vector2.ZERO
+var attack_cooldown: float = 0.0
 
 var slash_scene = preload("res://scenes/slash_arc.tscn")
 
 @onready var sprite = $Sprite2D
 @onready var light = $PointLight2D
+@onready var hp_bar = $CanvasLayer/HUD/HealthBar
+@onready var blood_label = $CanvasLayer/HUD/BloodLabel
+@onready var level_label = $CanvasLayer/HUD/LevelLabel
+@onready var upgrade_panel = $CanvasLayer/HUD/UpgradePanel
 
 func _ready() -> void:
 	add_to_group("player")
+	update_hud()
+	
+	if upgrade_panel:
+		var btn_blade = upgrade_panel.get_node_or_null("VBox/BtnBlade")
+		var btn_swift = upgrade_panel.get_node_or_null("VBox/BtnSwift")
+		var btn_leech = upgrade_panel.get_node_or_null("VBox/BtnLeech")
+		if btn_blade:
+			btn_blade.pressed.connect(func(): choose_upgrade("blade"))
+		if btn_swift:
+			btn_swift.pressed.connect(func(): choose_upgrade("swift"))
+		if btn_leech:
+			btn_leech.pressed.connect(func(): choose_upgrade("leech"))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		attack_melee()
 
 func _physics_process(dt: float) -> void:
-	# Light subtle breathing flicker
 	light.energy = 1.8 + sin(Time.get_ticks_msec() / 200.0) * 0.15
+	if attack_cooldown > 0.0:
+		attack_cooldown -= dt
 
 	if is_dashing:
 		dash_timer -= dt
@@ -42,7 +69,6 @@ func _physics_process(dt: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 
-	# Space to Dash
 	if Input.is_action_just_pressed("ui_accept") and not is_dashing:
 		var dir = input_vec if input_vec != Vector2.ZERO else (Vector2.LEFT if sprite.flip_h else Vector2.RIGHT)
 		is_dashing = true
@@ -52,9 +78,61 @@ func _physics_process(dt: float) -> void:
 	move_and_slide()
 
 func attack_melee() -> void:
+	if attack_cooldown > 0.0 or is_dashing or (upgrade_panel and upgrade_panel.visible):
+		return
+	attack_cooldown = 0.25
+
 	var slash = slash_scene.instantiate()
 	var mouse_pos = get_global_mouse_position()
 	var angle = (mouse_pos - global_position).angle()
-	slash.global_position = global_position + Vector2.from_angle(angle) * 36.0
+	slash.global_position = global_position + Vector2.from_angle(angle) * 40.0
 	slash.rotation = angle
+	slash.scale = Vector2(attack_scale, attack_scale)
+	slash.damage = attack_power
 	get_parent().add_child(slash)
+
+func take_damage(amount: float) -> void:
+	current_hp = max(0.0, current_hp - amount)
+	update_hud()
+	sprite.modulate = Color(3.0, 0.4, 0.4, 1)
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.12)
+
+func gain_blood(amount: int) -> void:
+	blood_essence += amount
+	current_hp = min(max_hp, current_hp + 6.0)
+	if blood_essence >= next_level_threshold:
+		level_up()
+	update_hud()
+
+func level_up() -> void:
+	level += 1
+	next_level_threshold += 5 + level * 3
+	if upgrade_panel:
+		upgrade_panel.visible = true
+		Engine.time_scale = 0.05
+
+func choose_upgrade(choice: String) -> void:
+	if choice == "blade":
+		attack_power = int(attack_power * 1.4)
+		attack_scale += 0.25
+	elif choice == "swift":
+		speed += 50.0
+		dash_speed += 120.0
+	elif choice == "leech":
+		max_hp += 30.0
+		current_hp = max_hp
+
+	if upgrade_panel:
+		upgrade_panel.visible = false
+	Engine.time_scale = 1.0
+	update_hud()
+
+func update_hud() -> void:
+	if hp_bar:
+		hp_bar.max_value = max_hp
+		hp_bar.value = current_hp
+	if blood_label:
+		blood_label.text = "Blood Essence: %d / %d" % [blood_essence, next_level_threshold]
+	if level_label:
+		level_label.text = "Rank: %d" % level

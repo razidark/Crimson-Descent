@@ -1,48 +1,152 @@
-[gd_scene load_steps=5 format=3 uid="uid://player_scene_01"]
+[gd_scene load_steps=7 format=3 uid="uid://player_scene_01"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/hero_0.png" id="2_hero_tex"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
-radius = 16.0
-
-[sub_resource type="Gradient" id="Gradient_char"]
-colors = PackedColorArray(0.85, 0.15, 0.25, 1, 0.4, 0.05, 0.1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_char"]
-gradient = SubResource("Gradient_char")
-width = 32
-height = 32
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.9, 0.9)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
+radius = 18.0
+height = 54.0
 
 [sub_resource type="Gradient" id="Gradient_light"]
-colors = PackedColorArray(1, 0.4, 0.2, 0.9, 0, 0, 0, 0)
+colors = PackedColorArray(1, 0.45, 0.35, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
 gradient = SubResource("Gradient_light")
-width = 128
-height = 128
+width = 256
+height = 256
 fill = 1
 fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.85, 0.85)
+fill_to = Vector2(0.95, 0.95)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_fill"]
+bg_color = Color(0.9, 0.15, 0.25, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_bg"]
+bg_color = Color(0.08, 0.05, 0.1, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.1, 0.15, 1)
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
 script = ExtResource("1_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_1")
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_char")
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_hero_tex")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-color = Color(0.95, 0.4, 0.2, 1)
+color = Color(0.98, 0.45, 0.3, 1)
 energy = 1.8
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 2.0
 texture = SubResource("GradientTexture2D_light")
-texture_scale = 5.0
+texture_scale = 4.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
-zoom = Vector2(1.5, 1.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopPanel" type="Panel" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 54.0
+grow_horizontal = 2
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 260.0
+offset_bottom = 36.0
+theme_override_styles/background = SubResource("StyleBoxFlat_player_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_player_fill")
+value = 100.0
+show_percentage = false
+
+[node name="HpText" type="Label" parent="CanvasLayer/HUD/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "HEALTH"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BloodLabel" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 14.0
+offset_right = 440.0
+offset_bottom = 38.0
+text = "Blood Essence: 0"
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 14.0
+offset_right = 580.0
+offset_bottom = 38.0
+text = "Rank: 1"
+vertical_alignment = 1
+
+[node name="UpgradePanel" type="PanelContainer" parent="CanvasLayer/HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -140.0
+offset_right = 260.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HUD/UpgradePanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="CanvasLayer/HUD/UpgradePanel/VBox"]
+layout_mode = 2
+text = "--- BLOOD BLESSING UNLOCKED ---"
+horizontal_alignment = 1
+
+[node name="BtnBlade" type="Button" parent="CanvasLayer/HUD/UpgradePanel/VBox"]
+layout_mode = 2
+text = "[1] Crimson Cleave: +35% Attack Damage & Slash Width"
+
+[node name="BtnSwift" type="Button" parent="CanvasLayer/HUD/UpgradePanel/VBox"]
+layout_mode = 2
+text = "[2] Vampire Wings: +25% Movement Speed & Lower Dash Cooldown"
+
+[node name="BtnLeech" type="Button" parent="CanvasLayer/HUD/UpgradePanel/VBox"]
+layout_mode = 2
+text = "[3] Soul Drinker: Instantly restore 50% HP & gain +20 Max HP"
