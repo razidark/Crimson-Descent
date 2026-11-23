@@ -1,4 +1,4 @@
-﻿extends Area2D
+extends Area2D
 
 @export var damage: int = 25
 @export var lifetime: float = 0.22
