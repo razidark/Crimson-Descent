@@ -1,0 +1,1357 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;600;700&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --font-sans: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-mono: 'Share Tech Mono', 'Courier New', Courier, monospace;
+
+  /* Gothic Theme Colors */
+  --bg-dark: #07040a;
+  --panel-bg: rgba(12, 8, 18, 0.82);
+  --panel-border: rgba(239, 68, 68, 0.14);
+  --panel-border-focus: rgba(239, 68, 68, 0.45);
+  
+  --primary: #ef4444; /* Blood Red */
+  --primary-glow: rgba(239, 68, 68, 0.25);
+  --secondary: #8b5cf6; /* Violet */
+  --gold: #fbbf24;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #475569;
+  
+  --taskbar-height: 48px;
+
+  /* Rarity Colors */
+  --color-common: #94a3b8;
+  --color-rare: #3b82f6;
+  --color-epic: #a855f7;
+  --color-legendary: #fbbf24;
+  --color-cosmic: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body, html, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+}
+
+.wallpaper-mist {
+  background-color: #050505;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(239, 68, 68, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 60%),
+    url('https://images.unsplash.com/photo-1504700610630-ac6aba3536d3?q=80&w=2570&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+}
+
+.wallpaper-moon {
+  background-color: #020104;
+  background-image: url('https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=2574&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+}
+
+.wallpaper-terminal {
+  background-color: #020202;
+  background-image: 
+    linear-gradient(rgba(34, 197, 94, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(239, 68, 68, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+/* Game Client Layout Wrapper */
+.game-client-container {
+  background-color: var(--bg-dark);
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+}
+
+/* Premium Header */
+.game-header {
+  background: linear-gradient(180deg, #0d0914 0%, #060408 100%) !important;
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(239, 68, 68, 0.05);
+}
+
+/* Navigation Tabs */
+.game-nav-bar {
+  background: rgba(10, 6, 15, 0.5) !important;
+  border-bottom: 1px solid rgba(239, 68, 68, 0.1) !important;
+}
+
+.nav-tab-button {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-tab-button:hover {
+  background: rgba(239, 68, 68, 0.05) !important;
+  color: #fca5a5 !important;
+}
+
+.nav-tab-button::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ef4444, #8b5cf6);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+.nav-tab-button:hover::after {
+  width: 60%;
+}
+
+.nav-tab-button.border-red-500::after {
+  width: 100%;
+}
+
+/* Coven HUD Sidebar Cards */
+.coven-hud-card {
+  background: linear-gradient(135deg, rgba(16, 10, 22, 0.9) 0%, rgba(8, 5, 12, 0.95) 100%) !important;
+  border: 1px solid rgba(239, 68, 68, 0.12) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(239, 68, 68, 0.02);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.coven-hud-card:hover {
+  border-color: rgba(239, 68, 68, 0.4) !important;
+  transform: translateY(-2px) scale(1.01) !important;
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.08), inset 0 0 15px rgba(239, 68, 68, 0.05) !important;
+}
+
+/* Health Bar Glow */
+.coven-hud-card .bg-gradient-to-r {
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+}
+
+/* Shield Bar Glow */
+.coven-hud-card .bg-gradient-to-r.from-cyan-600 {
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+}
+
+/* Active Spell Bar & Buttons */
+.active-spell-bar {
+  background: linear-gradient(0deg, #09060d 0%, #0e0a15 100%) !important;
+  border-top: 1px solid rgba(239, 68, 68, 0.2) !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.active-spell-bar button {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.active-spell-bar button:hover:not(:disabled) {
+  transform: translateY(-2px) !important;
+}
+
+.active-spell-bar button[title*="Blood Siphon"]:hover:not(:disabled) {
+  border-color: rgba(239, 68, 68, 0.6) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.25) !important;
+}
+
+.active-spell-bar button[title*="Gothic Storm"]:hover:not(:disabled) {
+  border-color: rgba(168, 85, 247, 0.6) !important;
+  background: rgba(168, 85, 247, 0.08) !important;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.25) !important;
+}
+
+.active-spell-bar button[title*="Shadow Cloak"]:hover:not(:disabled) {
+  border-color: rgba(6, 182, 212, 0.6) !important;
+  background: rgba(6, 182, 212, 0.08) !important;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.25) !important;
+}
+
+.active-spell-bar button[title*="Vampiric Haste"]:hover:not(:disabled) {
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  background: rgba(245, 158, 11, 0.08) !important;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25) !important;
+}
+
+/* Float-up Pill notifications */
+.pill-notification {
+  background: rgba(9, 5, 14, 0.92) !important;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(239, 68, 68, 0.15) !important;
+  color: #fee2e2 !important;
+}
+
+@keyframes notification-slide-fade {
+  0% { transform: translateY(20px); opacity: 0; }
+  10% { transform: translateY(0); opacity: 1; }
+  85% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-15px); opacity: 0; }
+}
+
+/* Combat animations */
+@keyframes walk {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes hurt {
+  0% { filter: invert(0) brightness(1); }
+  30% { filter: invert(0.3) sepia(1) saturate(5) hue-rotate(-50deg); }
+  100% { filter: invert(0) brightness(1); }
+}
+
+@keyframes float-damage {
+  0% { transform: translateY(0) scale(0.85); opacity: 0; }
+  15% { transform: translateY(-8px) scale(1.15); opacity: 1; }
+  85% { transform: translateY(-20px) scale(1); opacity: 1; }
+  100% { transform: translateY(-24px) scale(0.9); opacity: 0; }
+}
+
+.sprite-walk {
+  animation: walk 0.5s infinite ease-in-out;
+}
+
+.sprite-hurt {
+  animation: hurt 0.25s ease-in-out;
+}
+
+.floating-dmg {
+  animation: float-damage 0.7s forwards ease-out;
+  font-family: var(--font-mono);
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Rarity highlights */
+.rarity-common { color: var(--color-common); }
+.rarity-rare { color: var(--color-rare); }
+.rarity-epic { color: var(--color-epic); }
+.rarity-legendary { color: var(--color-legendary); }
+.rarity-cosmic { color: var(--color-cosmic); }
+
+.border-rarity-common { border-color: rgba(148, 163, 184, 0.2); }
+.border-rarity-rare { border-color: rgba(59, 130, 246, 0.3); }
+.border-rarity-epic { border-color: rgba(168, 85, 247, 0.4); }
+.border-rarity-legendary { border-color: rgba(251, 191, 36, 0.5); }
+.border-rarity-cosmic { border-color: rgba(239, 68, 68, 0.6); }
+
+.bg-rarity-common { background: rgba(148, 163, 184, 0.08); }
+.bg-rarity-rare { background: rgba(59, 130, 246, 0.08); }
+.bg-rarity-epic { background: rgba(168, 85, 247, 0.08); }
+.bg-rarity-legendary { background: rgba(251, 191, 36, 0.08); }
+.bg-rarity-cosmic { background: rgba(239, 68, 68, 0.08); }
+
+/* CRT Scanline filter overlay */
+.scanline {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(239, 68, 68, 0.04) 50%
+  );
+  background-size: 100% 6px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+.gothic-title {
+  font-family: var(--font-serif);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Card upgrade hover effects */
+.upgrade-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.upgrade-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.25);
+}
+
+.defrag-cell.fragmented {
+  background-color: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.1);
+  transition: all 0.15s ease;
+}
+
+.defrag-cell.fragmented:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.defrag-cell.cleaning {
+  background-color: var(--primary) !important;
+  animation: blink 0.2s infinite alternate;
+}
+
+@keyframes blink {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* --- Coven HUD Panels --- */
+.coven-hud-panel {
+  position: absolute;
+  bottom: 14px;
+  left: 24px;
+  width: 380px;
+  background: rgba(10, 6, 14, 0.82);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(239, 68, 68, 0.16);
+  border-radius: 8px;
+  padding: 8px 10px;
+  z-index: 9980;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+  transition: border-color 0.3s ease;
+}
+
+.coven-hud-panel:hover {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.coven-hud-card {
+  transition: all 0.22s ease-in-out;
+}
+
+.coven-hud-card:hover {
+  border-color: rgba(239, 68, 68, 0.35) !important;
+  background: rgba(20, 10, 28, 0.85) !important;
+  transform: translateY(-1px);
+}
+
+/* --- Ultimate Cast Screen Flash Overlays --- */
+.ultimate-flash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  pointer-events: none;
+  animation: ultimate-flash-anim 0.55s ease-out forwards;
+}
+
+.flash-gold {
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.24) 0%, rgba(0, 0, 0, 0.72) 75%);
+}
+
+.flash-crimson {
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.28) 0%, rgba(0, 0, 0, 0.76) 75%);
+}
+
+.flash-cyan {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.22) 0%, rgba(0, 0, 0, 0.72) 75%);
+}
+
+@keyframes ultimate-flash-anim {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* --- Dynamic Levels Tileset Overrides --- */
+.game-widget-lane {
+  background-image: url('./assets/levels.png') !important;
+  background-size: 32px 160px !important;
+  background-repeat: repeat-x !important;
+  background-position: var(--lane-bg-pos, 0px 0px) !important;
+}
+
+.wood-dock-floor {
+  background-image: url('./assets/levels.png') !important;
+  background-size: 32px 160px !important;
+  background-repeat: repeat-x !important;
+  background-position: var(--floor-bg-pos, 0px -16px) !important;
+  opacity: 0.95;
+}
+
+.game-widget-lane.zone-0 {
+  --lane-bg-pos: 0px 0px;
+  --floor-bg-pos: 0px -16px;
+  --bonfire-hue: 0deg;
+}
+
+.game-widget-lane.zone-1 {
+  --lane-bg-pos: 0px -32px;
+  --floor-bg-pos: 0px -48px;
+  --bonfire-hue: 120deg;
+}
+
+.game-widget-lane.zone-2 {
+  --lane-bg-pos: 0px -64px;
+  --floor-bg-pos: 0px -80px;
+  --bonfire-hue: 190deg;
+}
+
+.game-widget-lane.zone-3 {
+  --lane-bg-pos: 0px -96px;
+  --floor-bg-pos: 0px -112px;
+  --bonfire-hue: 340deg;
+}
+
+.game-widget-lane.zone-4 {
+  --lane-bg-pos: 0px -128px;
+  --floor-bg-pos: 0px -144px;
+  --bonfire-hue: 280deg;
+}
+
+/* --- Electron Desktop Transparency --- */
+body.is-electron,
+body.is-electron #root,
+body.is-electron .desktop-container {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+body.is-electron .desktop-grid-overlay,
+body.is-electron .scanline {
+  display: none !important;
+}
+
+/* --- Gothic Diablo-Style Windows (inspired by screenshot) --- */
+.glass-panel {
+  background: linear-gradient(135deg, #100612 0%, #040206 100%) !important;
+  border: 3px solid #3d1b31 !important;
+  border-image: linear-gradient(to bottom, #7a224a, #1f0b18) 1 !important;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.9),
+    inset 0 0 18px rgba(122, 34, 74, 0.22) !important;
+  border-radius: 0px !important; /* Sharp corners like retro panels */
+}
+
+.glass-panel-focused {
+  border-image: linear-gradient(to bottom, #ef4444, #581c87) 1 !important;
+  box-shadow: 
+    0 25px 60px rgba(239, 68, 68, 0.12),
+    0 20px 50px rgba(0, 0, 0, 0.95),
+    inset 0 0 24px rgba(239, 68, 68, 0.28) !important;
+}
+
+/* Window Title Bar */
+.title-bar-drag {
+  background: linear-gradient(90deg, rgba(122, 34, 74, 0.22) 0%, rgba(10, 6, 14, 0.75) 100%) !important;
+  border-bottom: 2px solid #7a224a !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Gothic Retro Buttons */
+.gothic-btn {
+  background: linear-gradient(180deg, #250f1e 0%, #0d040b 100%) !important;
+  border: 1px solid #7a224a !important;
+  color: #cbd5e1 !important;
+  font-family: var(--font-mono) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 12px;
+  border-radius: 2px;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.gothic-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, #7a224a 0%, #250f1e 100%) !important;
+  border-color: #ef4444 !important;
+  color: #fff !important;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+.gothic-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.gothic-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* --- Coven HUD Panel & Sidebar --- */
+.coven-hud-panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 320px;
+  background: rgba(10, 6, 14, 0.88);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: 8px;
+  padding: 14px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(239, 68, 68, 0.05);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: var(--font-sans);
+}
+
+/* Coven HUD Header & XP */
+.coven-hud-panel .font-mono {
+  font-family: var(--font-mono);
+}
+
+.coven-hud-panel .bg-slate-950 {
+  background-color: #050307;
+  border-radius: 4px;
+  height: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  position: relative;
+  flex-grow: 1;
+}
+
+.coven-hud-panel .bg-gradient-to-r {
+  height: 100%;
+  background: linear-gradient(90deg, #dc2626 0%, #7c3aed 50%, #4f46e5 100%);
+  transition: width 0.3s ease;
+}
+
+/* Vinculum Bonds */
+.coven-hud-panel .flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-start;
+}
+
+.coven-hud-panel .flex-wrap span {
+  padding: 3px 6px;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.coven-hud-panel .border-red-500 {
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(127, 29, 29, 0.25);
+  color: #fca5a5;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.2);
+}
+
+/* Hero Cards Container (Vertical Stack) */
+.coven-hud-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Individual Hero Card */
+.coven-hud-card {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: rgba(16, 10, 22, 0.75);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.coven-hud-card:hover {
+  border-color: rgba(239, 68, 68, 0.45);
+  background: rgba(24, 15, 33, 0.85);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.15);
+}
+
+/* Hero Portrait */
+.coven-hud-card .shrink-0 {
+  flex-shrink: 0;
+}
+
+.coven-hud-card .w-8.h-8 {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: #09050c;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Health & Shield Gauges */
+.coven-hud-card .flex-1 {
+  flex: 1;
+  min-width: 0;
+}
+
+.coven-hud-card .font-serif {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  font-weight: bold;
+  color: #f87171;
+  letter-spacing: 0.05em;
+}
+
+.coven-hud-card .w-full.bg-slate-900 {
+  background-color: #0d0913;
+  height: 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(239, 68, 68, 0.1);
+  position: relative;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.coven-hud-card .bg-gradient-to-r {
+  height: 100%;
+  background: linear-gradient(90deg, #b91c1c 0%, #ef4444 100%);
+  transition: width 0.3s ease;
+}
+
+.coven-hud-card .bg-gradient-to-r.from-cyan-600 {
+  background: linear-gradient(90deg, #0891b2 0%, #22d3ee 100%);
+}
+
+.coven-hud-card .text-slate-500 {
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+}
+
+/* Ultimate Skill Buttons */
+.coven-hud-card button {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  background: rgba(69, 26, 3, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.coven-hud-card button:hover:not(:disabled) {
+  border-color: rgba(251, 191, 36, 0.7);
+  background: rgba(120, 53, 4, 0.35);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
+}
+
+.coven-hud-card button:disabled {
+  border-color: rgba(255, 255, 255, 0.05);
+  background: rgba(5, 5, 5, 0.4);
+  cursor: not-allowed;
+}
+
+.coven-hud-card button .text-red-400 {
+  color: #f87171;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.coven-hud-card button .text-amber-500 {
+  color: #fbbf24;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+}
+
+/* --- Virtual Desktop Styling --- */
+.desktop-container {
+  background: radial-gradient(circle at center, #150d1e 0%, #050308 100%) !important;
+  position: relative;
+}
+
+.desktop-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(239, 68, 68, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(239, 68, 68, 0.03) 1px, transparent 1px);
+  pointer-events: none;
+}
+
+.scanline {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* ==========================================================================
+   ⚡ TAILWIND COMPATIBILITY UTILITY LAYER (VANILLA CSS)
+   ========================================================================== */
+
+/* --- Flexbox & Alignment --- */
+.flex { display: flex !important; }
+.flex-col { flex-direction: column !important; }
+.flex-row { flex-direction: row !important; }
+.flex-wrap { flex-wrap: wrap !important; }
+.flex-1 { flex: 1 1 0% !important; }
+.shrink-0 { flex-shrink: 0 !important; }
+.items-center { align-items: center !important; }
+.items-baseline { align-items: baseline !important; }
+.justify-between { justify-content: space-between !important; }
+.justify-center { justify-content: center !important; }
+
+/* --- Grid System --- */
+.grid { display: grid !important; }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+.grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+
+/* --- Gaps --- */
+.gap-0\.5 { gap: 2px !important; }
+.gap-1 { gap: 4px !important; }
+.gap-1\.5 { gap: 6px !important; }
+.gap-2 { gap: 8px !important; }
+.gap-2\.5 { gap: 10px !important; }
+.gap-3 { gap: 12px !important; }
+.gap-4 { gap: 16px !important; }
+.gap-6 { gap: 24px !important; }
+
+/* --- Sizing --- */
+.w-full { width: 100% !important; }
+.h-full { height: 100% !important; }
+.w-5 { width: 20px !important; }
+.h-5 { height: 20px !important; }
+.w-6 { width: 24px !important; }
+.h-6 { height: 24px !important; }
+.w-8 { width: 32px !important; }
+.h-8 { height: 32px !important; }
+.w-14 { width: 56px !important; }
+.h-14 { height: 56px !important; }
+
+/* --- Padding --- */
+.p-1 { padding: 4px !important; }
+.p-1\.5 { padding: 6px !important; }
+.p-2 { padding: 8px !important; }
+.p-2\.5 { padding: 10px !important; }
+.p-3 { padding: 12px !important; }
+.p-4 { padding: 16px !important; }
+.p-6 { padding: 24px !important; }
+.px-1 { padding-left: 4px !important; padding-right: 4px !important; }
+.px-2 { padding-left: 8px !important; padding-right: 8px !important; }
+.px-3 { padding-left: 12px !important; padding-right: 12px !important; }
+.py-0\.5 { padding-top: 2px !important; padding-bottom: 2px !important; }
+.py-1 { padding-top: 4px !important; padding-bottom: 4px !important; }
+.py-1\.5 { padding-top: 6px !important; padding-bottom: 6px !important; }
+.pb-1 { padding-bottom: 4px !important; }
+.pb-2 { padding-bottom: 8px !important; }
+.pl-2 { padding-left: 8px !important; }
+
+/* --- Margins --- */
+.m-0 { margin: 0 !important; }
+.mt-0\.5 { margin-top: 2px !important; }
+.mt-1 { margin-top: 4px !important; }
+.mt-2 { margin-top: 8px !important; }
+.mt-4 { margin-top: 16px !important; }
+.mb-1 { margin-bottom: 4px !important; }
+.mb-1\.5 { margin-bottom: 6px !important; }
+.mb-2 { margin-bottom: 8px !important; }
+.mb-3 { margin-bottom: 12px !important; }
+.mb-4 { margin-bottom: 16px !important; }
+.mb-6 { margin-bottom: 24px !important; }
+.mr-4 { margin-right: 16px !important; }
+
+/* --- Border Radius --- */
+.rounded { border-radius: 4px !important; }
+.rounded-sm { border-radius: 2px !important; }
+.rounded-lg { border-radius: 8px !important; }
+.rounded-xl { border-radius: 12px !important; }
+.rounded-full { border-radius: 9999px !important; }
+
+/* --- Borders --- */
+.border { border: 1px solid rgba(239, 68, 68, 0.15) !important; }
+.border-2 { border: 2px solid rgba(239, 68, 68, 0.25) !important; }
+.border-b { border-bottom: 1px solid rgba(239, 68, 68, 0.15) !important; }
+.border-l-2 { border-left: 2px solid rgba(239, 68, 68, 0.3) !important; }
+
+/* --- Gothic Backgrounds --- */
+.bg-slate-950 { background-color: #050307 !important; }
+.bg-slate-900 { background-color: #0b0712 !important; }
+.bg-black\/85 { background-color: rgba(0, 0, 0, 0.85) !important; }
+.bg-slate-950\/20 { background-color: rgba(5, 3, 7, 0.2) !important; }
+.bg-slate-950\/40 { background-color: rgba(5, 3, 7, 0.4) !important; }
+.bg-slate-950\/70 { background-color: rgba(5, 3, 7, 0.7) !important; }
+.bg-slate-950\/80 { background-color: rgba(5, 3, 7, 0.8) !important; }
+.bg-slate-950\/90 { background-color: rgba(5, 3, 7, 0.9) !important; }
+.bg-slate-900\/30 { background-color: rgba(11, 7, 18, 0.3) !important; }
+.bg-slate-900\/50 { background-color: rgba(11, 7, 18, 0.5) !important; }
+.bg-red-950\/10 { background-color: rgba(69, 10, 10, 0.1) !important; }
+.bg-red-950\/20 { background-color: rgba(69, 10, 10, 0.2) !important; }
+.bg-red-950\/30 { background-color: rgba(69, 10, 10, 0.3) !important; }
+.bg-red-950\/40 { background-color: rgba(69, 10, 10, 0.4) !important; }
+.bg-yellow-950\/40 { background-color: rgba(66, 32, 6, 0.4) !important; }
+
+/* --- Border Colors --- */
+.border-slate-700 { border-color: rgba(255, 255, 255, 0.08) !important; }
+.border-slate-800 { border-color: rgba(255, 255, 255, 0.12) !important; }
+.border-slate-900 { border-color: rgba(0, 0, 0, 0.5) !important; }
+.border-red-950 { border-color: rgba(69, 10, 10, 0.6) !important; }
+.border-red-900\/40 { border-color: rgba(127, 29, 29, 0.4) !important; }
+.border-red-900\/60 { border-color: rgba(127, 29, 29, 0.6) !important; }
+.border-red-700\/50 { border-color: rgba(185, 28, 28, 0.5) !important; }
+.border-yellow-500\/30 { border-color: rgba(234, 179, 8, 0.3) !important; }
+.border-amber-900\/40 { border-color: rgba(120, 53, 4, 0.4) !important; }
+
+/* --- Text Styling & Colors --- */
+.text-red-500 { color: #ef4444 !important; }
+.text-red-400 { color: #f87171 !important; }
+.text-red-300 { color: #fca5a5 !important; }
+.text-red-200 { color: #fecaca !important; }
+.text-amber-400 { color: #fbbf24 !important; }
+.text-purple-400 { color: #c084fc !important; }
+.text-green-400 { color: #4ade80 !important; }
+.text-yellow-500 { color: #eab308 !important; }
+.text-slate-100 { color: #f1f5f9 !important; }
+.text-slate-200 { color: #e2e8f0 !important; }
+.text-slate-400 { color: #94a3b8 !important; }
+.text-slate-500 { color: #64748b !important; }
+.text-slate-600 { color: #475569 !important; }
+.text-slate-700 { color: #334155 !important; }
+
+/* --- Text Sizes & Weight --- */
+.text-\[7px\] { font-size: 7px !important; }
+.text-\[8px\] { font-size: 8px !important; }
+.text-\[9px\] { font-size: 9px !important; }
+.text-\[10px\] { font-size: 10px !important; }
+.text-xs { font-size: 12px !important; }
+.text-sm { font-size: 14px !important; }
+.text-lg { font-size: 18px !important; }
+.text-xl { font-size: 20px !important; }
+
+.font-bold { font-weight: 700 !important; }
+.font-semibold { font-weight: 600 !important; }
+.italic { font-style: italic !important; }
+.uppercase { text-transform: uppercase !important; }
+.tracking-wide { letter-spacing: 0.025em !important; }
+.tracking-wider { letter-spacing: 0.05em !important; }
+.tracking-widest { letter-spacing: 0.15em !important; }
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+.text-left { text-align: left !important; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* --- Other Utilities --- */
+.overflow-hidden { overflow: hidden !important; }
+.overflow-auto { overflow: auto !important; }
+.pointer-events-none { pointer-events: none !important; }
+.select-none { user-select: none !important; }
+.absolute { position: absolute !important; }
+.relative { position: relative !important; }
+.fixed { position: fixed !important; }
+.inset-0 { position: fixed; top: 0; right: 0; bottom: 0; left: 0; }
+.z-\[99999\] { z-index: 99999 !important; }
+.z-\[999999\] { z-index: 999999 !important; }
+.transition-all { transition: all 0.2s ease-in-out !important; }
+.duration-300 { transition-duration: 300ms !important; }
+.cursor-pointer { cursor: pointer !important; }
+.cursor-not-allowed { cursor: not-allowed !important; }
+
+/* --- Desktop Wallpaper (Blood Moon) --- */
+.desktop-wallpaper-container {
+  position: absolute;
+  top: 45%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.15;
+  z-index: 1;
+}
+
+.blood-moon {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ef4444 0%, #7f1d1d 75%, #450a0a 100%);
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.4), inset -15px -15px 35px rgba(0, 0, 0, 0.9);
+  animation: moon-pulse 6s infinite alternate ease-in-out;
+}
+
+@keyframes moon-pulse {
+  0% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.3); transform: scale(0.97) rotate(0deg); }
+  100% { box-shadow: 0 0 50px rgba(239, 68, 68, 0.6); transform: scale(1.03) rotate(3deg); }
+}
+
+.gothic-crest-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: bold;
+  color: #ef4444;
+  text-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+  letter-spacing: 0.25em;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+.gothic-crest-subtitle {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: #64748b;
+  letter-spacing: 0.15em;
+  margin-top: 6px;
+}
+
+/* --- Desktop Shortcuts Grid --- */
+.desktop-shortcuts-grid {
+  position: absolute;
+  top: 20px;
+  left: 360px; /* Offset to clear the 320px wide CovenHUD sidebar */
+  display: grid;
+  grid-template-columns: repeat(3, 85px);
+  grid-gap: 16px;
+  z-index: 5;
+}
+
+.shortcut-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 85px;
+  height: 85px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.18s ease-in-out;
+  text-align: center;
+}
+
+.shortcut-icon:hover {
+  background: rgba(239, 68, 68, 0.06);
+  border-color: rgba(239, 68, 68, 0.18);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 8px rgba(239, 68, 68, 0.05);
+}
+
+.shortcut-icon svg {
+  width: 26px;
+  height: 26px;
+  color: #94a3b8;
+  transition: all 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+}
+
+.shortcut-icon:hover svg {
+  transform: scale(1.08);
+}
+
+.shortcut-icon .icon-shield { color: #f87171; filter: drop-shadow(0 0 6px rgba(248, 113, 113, 0.35)); }
+.shortcut-icon .icon-archive { color: #c084fc; filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.35)); }
+.shortcut-icon .icon-droplet { color: #f87171; filter: drop-shadow(0 0 6px rgba(248, 113, 113, 0.35)); }
+.shortcut-icon .icon-key { color: #fbbf24; filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.35)); }
+.shortcut-icon .icon-terminal { color: #4ade80; filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.35)); }
+.shortcut-icon .icon-scroll { color: #38bdf8; filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.35)); }
+
+.shortcut-icon span {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: #94a3b8;
+  margin-top: 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: color 0.18s ease;
+}
+
+.shortcut-icon:hover span {
+  color: #f8fafc;
+}
+
+/* --- Gothic Flyout Windows --- */
+.gothic-flyout {
+  position: absolute;
+  bottom: 24px; /* Float above the bottom taskbar */
+  width: 480px;
+  height: 430px;
+  background: rgba(12, 8, 16, 0.95) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(239, 68, 68, 0.12), inset 0 0 20px rgba(239, 68, 68, 0.05) !important;
+  border-radius: 8px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(12px);
+  animation: flyout-slide-up 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@keyframes flyout-slide-up {
+  from { transform: translateY(15px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Position Modifiers */
+.left-6 {
+  left: 24px !important;
+}
+
+.left-24 {
+  left: 96px !important;
+}
+
+.right-6 {
+  right: 24px !important;
+}
+
+/* Centered Flyout position & animation override */
+.gothic-flyout.left-1\/2.-translate-x-1\/2 {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  animation: flyout-slide-up-centered 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes flyout-slide-up-centered {
+  from { transform: translate(-50%, 15px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* --- RPG Game Client Layout Styles --- */
+.game-header {
+  height: 52px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.nav-tab-button {
+  outline: none;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-tab-button:hover:not(.border-red-500) {
+  color: #fca5a5 !important;
+  background: rgba(239, 68, 68, 0.03);
+}
+
+/* --- Battle Arena Container --- */
+.battle-arena-container {
+  display: flex;
+  flex-direction: column;
+  height: 160px; /* Large, immersive height for gameplay */
+  background: #09050c;
+  padding: 8px 16px;
+  box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+
+.battle-arena-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.battle-arena-header .zone-title {
+  color: #f87171;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.battle-arena-header .wave-status {
+  color: #c084fc;
+  font-weight: bold;
+}
+
+.battle-arena-lane {
+  flex: 1;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  background: #0d0913;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.battle-canvas {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  display: block;
+}
+
+.arena-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #09050c;
+  color: #f87171;
+  font-size: 10px;
+}
+
+/* ==========================================================================
+   🏰 PREMIUM GOTHIC RPG UI SYSTEM
+   ========================================================================== */
+
+/* Gothic Window Panel */
+.gothic-window-panel {
+  background: linear-gradient(135deg, rgba(7, 4, 11, 0.97) 0%, rgba(18, 8, 26, 0.98) 100%) !important;
+  border: 2px solid #581c87 !important;
+  border-image: linear-gradient(to bottom, #d97706, #7f1d1d 50%, #2e1065) 1 !important;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.95),
+    0 0 30px rgba(239, 68, 68, 0.15),
+    inset 0 0 24px rgba(239, 68, 68, 0.05) !important;
+  border-radius: 0px !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Animated Gothic Liquid Globes */
+.gothic-globe-container {
+  width: 76px;
+  height: 76px;
+  border-radius: 50% !important;
+  border: 3px solid #3f1812 !important;
+  border-image: linear-gradient(135deg, #d97706, #450a0a) 1 !important;
+  background: radial-gradient(circle at 50% 50%, rgba(15, 6, 20, 0.95) 0%, rgba(2, 1, 4, 1) 100%) !important;
+  overflow: hidden !important;
+  position: relative;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.85),
+    0 0 20px var(--globe-glow, rgba(239, 68, 68, 0.2)),
+    inset 0 0 15px rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gothic-globe-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* Dual overlapping waves */
+.gothic-globe-wave-1 {
+  position: absolute;
+  top: -12px;
+  left: 0;
+  width: 200%;
+  height: 20px;
+  background: repeat-x url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C150,110 350,10 500,60 C650,110 850,10 1000,60 C1150,110 1350,10 1500,60 L1500,120 L0,120 Z" fill="%23ef4444" opacity="0.4"/></svg>');
+  background-size: 50% 100%;
+  animation: wave-move-1 5s linear infinite;
+}
+
+.gothic-globe-wave-2 {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 200%;
+  height: 16px;
+  background: repeat-x url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C150,90 350,30 500,60 C650,90 850,30 1000,60 C1150,90 1350,30 1500,60 L1500,120 L0,120 Z" fill="%23dc2626" opacity="0.85"/></svg>');
+  background-size: 50% 100%;
+  animation: wave-move-2 3s linear infinite;
+}
+
+/* Mana (Blue) waves */
+.gothic-globe-wave-1-mana {
+  background: repeat-x url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C150,110 350,10 500,60 C650,110 850,10 1000,60 C1150,110 1350,10 1500,60 L1500,120 L0,120 Z" fill="%233b82f6" opacity="0.4"/></svg>') !important;
+  background-size: 50% 100% !important;
+}
+
+.gothic-globe-wave-2-mana {
+  background: repeat-x url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C150,90 350,30 500,60 C650,90 850,30 1000,60 C1150,90 1350,30 1500,60 L1500,120 L0,120 Z" fill="%232563eb" opacity="0.85"/></svg>') !important;
+  background-size: 50% 100% !important;
+}
+
+/* Glass glare reflection overlay */
+.gothic-globe-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 55%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes wave-move-1 {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes wave-move-2 {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* Carved Stone Socket Slots */
+.gothic-stone-socket {
+  aspect-ratio: 1/1;
+  border-radius: 6px;
+  border: 1px solid rgba(239, 68, 68, 0.06);
+  background-color: #09070c;
+  box-shadow: inset 0 6px 12px rgba(0,0,0,0.95), inset 0 0 4px rgba(239,68,68,0.02);
+  position: relative;
+}
+
+.gothic-stone-socket::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   DIABLO GOTHIC MODALS (LORE PROLOGUE & TOWN NPCS)
+   ========================================================================== */
+.gothic-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 20px;
+}
+
+.gothic-modal-window {
+  position: relative;
+  width: 720px;
+  max-width: 95vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #140b12 0%, #0d070c 50%, #050204 100%);
+  border: 2px solid #7f1d1d;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.98), 0 0 40px rgba(225, 29, 72, 0.25), inset 0 0 30px rgba(127, 29, 29, 0.3);
+  color: #e2e8f0;
+  overflow: hidden;
+}
+
+.gothic-modal-window-cyan {
+  border-color: #0369a1;
+  background: linear-gradient(180deg, #09131d 0%, #060c13 50%, #03060a 100%);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.98), 0 0 40px rgba(6, 182, 212, 0.25), inset 0 0 30px rgba(3, 105, 161, 0.25);
+}
+
+.gothic-modal-window-amber {
+  border-color: #78350f;
+  background: linear-gradient(180deg, #180f08 0%, #0f0904 50%, #080402 100%);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.98), 0 0 40px rgba(245, 158, 11, 0.2), inset 0 0 30px rgba(120, 53, 15, 0.25);
+}
+
+.gothic-modal-window-purple {
+  border-color: #581c87;
+  background: linear-gradient(180deg, #130a1c 0%, #0c0612 50%, #06030a 100%);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.98), 0 0 40px rgba(168, 85, 247, 0.25), inset 0 0 30px rgba(88, 28, 135, 0.25);
+}
+
+.gothic-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(239, 68, 68, 0.25);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.gothic-modal-body {
+  padding: 24px 28px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.gothic-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.gothic-overlay-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
