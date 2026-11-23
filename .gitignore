@@ -1,14 +1,17 @@
-﻿node_modules/
-dist*/
-build/
-out/
-*.exe
-*.dmg
-*.AppImage
-*.blockmap
-*.snap
+﻿# Godot 4+ specific ignores
+.godot/
+*.translation
 
-.env
-.env.local
-.env.*.local
-*.log
+# Mono / C# (if added later)
+.mono/
+[Bb]in/
+[Oo]bj/
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Old web archive
+old_web_version/
+node_modules/
