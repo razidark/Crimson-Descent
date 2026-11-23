@@ -21,15 +21,23 @@ func _on_area_entered(area: Area2D) -> void:
 	hit_target(area.get_parent())
 
 func hit_target(node: Node) -> void:
-	if node and (node.is_in_group("enemies") or node.is_in_group("resource_nodes")):
+	if node and (node.is_in_group("enemies") or node.is_in_group("resource_nodes") or node.is_in_group("boss")):
 		if node.has_method("take_damage"):
 			var is_crit = randf() < 0.20
 			var final_dmg = int(damage * 1.5) if is_crit else damage
 			node.take_damage(final_dmg)
 			spawn_damage_number(final_dmg, is_crit, false)
 			
+			# Trigger camera punch / screen shake
+			trigger_shake(0.35 if is_crit else 0.2)
+			
 			if is_dagger and node.has_method("apply_bleed"):
 				node.apply_bleed(3, 4.0)
+
+func trigger_shake(amount: float) -> void:
+	var cameras = get_tree().get_nodes_in_group("camera")
+	if cameras.size() > 0:
+		cameras[0].add_trauma(amount)
 
 func spawn_damage_number(amount: int, is_crit: bool, is_bleed: bool) -> void:
 	var num = dmg_num_scene.instantiate()
