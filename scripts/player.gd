@@ -12,15 +12,19 @@ var current_hp: float = 100.0
 var attack_power: int = 25
 var attack_scale: float = 1.0
 
-# Survival & Gathering Inventory
+# Traps & Crafting Placed
+var trap_scene = preload("res://scenes/spike_trap.tscn")
+
+# Inventory
 var inventory: Dictionary = {
-	"wood": 6,
-	"ore": 3,
-	"herb": 2,
+	"wood": 8,
+	"ore": 4,
+	"herb": 3,
 	"meat": 0,
-	"coin": 10,
+	"coin": 15,
 	"potion": 1,
-	"arrows": 15
+	"arrows": 20,
+	"traps": 2
 }
 
 var is_dashing: bool = false
@@ -47,6 +51,7 @@ var arrow_scene = preload("res://scenes/arrow.tscn")
 @onready var crafting_panel = $CanvasLayer/CraftingPanel
 @onready var pause_menu = $CanvasLayer/PauseMenu
 @onready var game_over_screen = $CanvasLayer/GameOverScreen
+@onready var victory_screen = $CanvasLayer/VictoryScreen
 
 func _ready() -> void:
 	add_to_group("player")
@@ -62,12 +67,17 @@ func _ready() -> void:
 		game_over_screen.get_node("VBox/RetryBtn").pressed.connect(restart_game)
 		game_over_screen.get_node("VBox/MenuBtn").pressed.connect(go_to_main_menu)
 
+	if victory_screen:
+		victory_screen.get_node("VBox/AgainBtn").pressed.connect(restart_game)
+		victory_screen.get_node("VBox/MenuBtn").pressed.connect(go_to_main_menu)
+
 func setup_crafting_buttons() -> void:
 	if not crafting_panel:
 		return
 	crafting_panel.get_node("VBox/BtnJerky").pressed.connect(func(): craft_item("jerky"))
 	crafting_panel.get_node("VBox/BtnPotion").pressed.connect(func(): craft_item("potion"))
 	crafting_panel.get_node("VBox/BtnArrows").pressed.connect(func(): craft_item("arrows"))
+	crafting_panel.get_node("VBox/BtnTrap").pressed.connect(func(): craft_item("trap"))
 	crafting_panel.get_node("VBox/BtnBlade").pressed.connect(func(): craft_item("blade"))
 	crafting_panel.get_node("VBox/BtnArmor").pressed.connect(func(): craft_item("armor"))
 	crafting_panel.get_node("VBox/CloseBtn").pressed.connect(func(): crafting_panel.visible = false)
@@ -77,7 +87,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.keycode == KEY_ESCAPE:
 			if crafting_panel.visible:
 				crafting_panel.visible = false
-			elif not game_over_screen.visible:
+			elif not game_over_screen.visible and not victory_screen.visible:
 				toggle_pause()
 		elif event.keycode == KEY_C or event.keycode == KEY_TAB:
 			toggle_crafting()
@@ -85,6 +95,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			cycle_weapon()
 		elif event.keycode == KEY_1:
 			use_potion()
+		elif event.keycode == KEY_2:
+			place_spike_trap()
 
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		execute_attack()
@@ -101,6 +113,18 @@ func get_weapon_name() -> String:
 		WeaponType.DAGGER: return "Twin Bleed Daggers"
 		WeaponType.BOW: return "Shadow Bow"
 	return "Unarmed"
+
+func place_spike_trap() -> void:
+	if inventory.get("traps", 0) > 0:
+		inventory["traps"] -= 1
+		var trap = trap_scene.instantiate()
+		trap.global_position = global_position
+		get_parent().add_child(trap)
+		play_sound("craft")
+		show_banner("Set Hunting Spike Trap! (%d remaining)" % inventory["traps"])
+		update_hud()
+	else:
+		show_banner("No traps! Craft in [C] menu (Req: 2 Wood, 1 Ore).")
 
 func toggle_crafting() -> void:
 	crafting_panel.visible = not crafting_panel.visible
@@ -127,13 +151,22 @@ func craft_item(recipe: String) -> void:
 				show_banner("Requires 2 Blood Herbs!")
 
 		"arrows":
-			# 2 Wood + 1 Ore -> +10 Arrows
 			if inventory["wood"] >= 2 and inventory["ore"] >= 1:
 				inventory["wood"] -= 2
 				inventory["ore"] -= 1
 				inventory["arrows"] += 10
 				play_sound("craft")
 				show_banner("Fletched +10 Shadow Arrows!")
+			else:
+				show_banner("Requires 2 Wood + 1 Ore!")
+
+		"trap":
+			if inventory["wood"] >= 2 and inventory["ore"] >= 1:
+				inventory["wood"] -= 2
+				inventory["ore"] -= 1
+				inventory["traps"] = inventory.get("traps", 0) + 1
+				play_sound("craft")
+				show_banner("Crafted Hunting Spike Trap! Press [2] to place.")
 			else:
 				show_banner("Requires 2 Wood + 1 Ore!")
 
@@ -281,6 +314,11 @@ func die() -> void:
 		game_over_screen.visible = true
 		get_tree().paused = true
 
+func trigger_victory() -> void:
+	if victory_screen:
+		victory_screen.visible = true
+		get_tree().paused = true
+
 func toggle_pause() -> void:
 	var is_paused = not get_tree().paused
 	get_tree().paused = is_paused
@@ -307,4 +345,4 @@ func update_hud() -> void:
 	if coin_label: coin_label.text = "Gold: %d" % inventory.get("coin", 0)
 	if weapon_label:
 		var extra = " (%d arrows)" % inventory.get("arrows", 0) if current_weapon == WeaponType.BOW else ""
-		weapon_label.text = "[Q] Weapon: %s%s" % [get_weapon_name(), extra]
+		weapon_label.text = "[Q] Weapon: %s%s  |  [2] Traps: %d" % [get_weapon_name(), extra, inventory.get("traps", 0)]

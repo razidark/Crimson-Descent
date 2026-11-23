@@ -104,7 +104,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 260.0
 offset_top = 16.0
-offset_right = 520.0
+offset_right = 560.0
 offset_bottom = 38.0
 text = "[Q] Weapon: Blood Greatsword"
 vertical_alignment = 1
@@ -158,10 +158,10 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_top = -40.0
-offset_right = 460.0
+offset_right = 600.0
 offset_bottom = -16.0
 grow_vertical = 0
-text = "[Q]: Switch Weapon  |  [C] / [TAB]: Crafting  |  [1]: Potion"
+text = "[Q]: Switch Weapon  |  [C] / [TAB]: Crafting  |  [1]: Potion  |  [2]: Place Spike Trap"
 
 [node name="MessageBanner" type="Label" parent="CanvasLayer/HUD"]
 visible = false
@@ -186,9 +186,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -270.0
-offset_top = -200.0
+offset_top = -220.0
 offset_right = 270.0
-offset_bottom = 200.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -213,6 +213,10 @@ text = "Vitality Potion: Restores 50 HP on [1]  (Req: 2 Herbs)"
 [node name="BtnArrows" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
 layout_mode = 2
 text = "Fletch +10 Arrows: Bow Ammunition  (Req: 2 Wood, 1 Ore)"
+
+[node name="BtnTrap" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+layout_mode = 2
+text = "Craft Spike Trap: Place with [2]  (Req: 2 Wood, 1 Ore)"
 
 [node name="BtnBlade" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
 layout_mode = 2
@@ -300,5 +304,46 @@ layout_mode = 2
 text = "Descend Again"
 
 [node name="MenuBtn" type="Button" parent="CanvasLayer/GameOverScreen/VBox"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="VictoryScreen" type="PanelContainer" parent="CanvasLayer"]
+process_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -160.0
+offset_right = 220.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/VictoryScreen"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="CanvasLayer/VictoryScreen/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 24
+text = "★ GUARDIAN VANQUISHED ★"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CanvasLayer/VictoryScreen/VBox"]
+layout_mode = 2
+text = "You have conquered the descent and unsealed the deeper realms."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AgainBtn" type="Button" parent="CanvasLayer/VictoryScreen/VBox"]
+layout_mode = 2
+text = "Play Again"
+
+[node name="MenuBtn" type="Button" parent="CanvasLayer/VictoryScreen/VBox"]
 layout_mode = 2
 text = "Main Menu"
