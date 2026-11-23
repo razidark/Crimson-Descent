@@ -3,10 +3,10 @@ extends CharacterBody2D
 enum EnemyType { BAT, DEMON_WARRIOR, SKELETON }
 @export var enemy_type: EnemyType = EnemyType.DEMON_WARRIOR
 
-@export var speed: float = 115.0
-@export var max_hp: int = 40
+@export var speed: float = 110.0
+@export var max_hp: int = 35
 @export var attack_damage: float = 12.0
-var current_hp: int = 40
+var current_hp: int = 35
 var target: Node2D = null
 
 var blood_orb_scene = preload("res://scenes/blood_orb.tscn")
@@ -22,7 +22,7 @@ func _ready() -> void:
 	hp_bar.visible = false
 
 func _physics_process(delta: float) -> void:
-	sprite.position.y = sin(Time.get_ticks_msec() / 100.0) * 2.0
+	sprite.position.y = sin(Time.get_ticks_msec() / 120.0) * 1.5
 
 	if not target:
 		var players = get_tree().get_nodes_in_group("player")
@@ -33,17 +33,18 @@ func _physics_process(delta: float) -> void:
 	var diff = target.global_position - global_position
 	var to_player_dir = diff.normalized()
 
-	# Flocking separation force to prevent ugly clumping
+	# Strong boid repulsion so enemies encircle rather than merge into one blob
 	var separation = Vector2.ZERO
-	var nearby_enemies = get_tree().get_nodes_in_group("enemies")
-	for other in nearby_enemies:
+	var nearby = get_tree().get_nodes_in_group("enemies")
+	for other in nearby:
 		if other != self and is_instance_valid(other):
 			var dist = global_position.distance_to(other.global_position)
-			if dist < 42.0 and dist > 0.1:
-				separation += (global_position - other.global_position).normalized() * (42.0 - dist)
+			if dist < 36.0 and dist > 0.1:
+				var force = (36.0 - dist) / 36.0
+				separation += (global_position - other.global_position).normalized() * force * 180.0
 
-	var move_dir = (to_player_dir * 1.4 + separation * 0.9).normalized()
-	velocity = move_dir * speed
+	var move_dir = (to_player_dir * speed + separation).limit_length(speed)
+	velocity = move_dir
 
 	if move_dir.x < 0:
 		sprite.flip_h = true
@@ -77,5 +78,5 @@ func spawn_blood_drop() -> void:
 	var count = 2 if enemy_type == EnemyType.DEMON_WARRIOR else 1
 	for i in range(count):
 		var orb = blood_orb_scene.instantiate()
-		orb.global_position = global_position + Vector2(randf_range(-15, 15), randf_range(-15, 15))
+		orb.global_position = global_position + Vector2(randf_range(-12, 12), randf_range(-12, 12))
 		get_parent().call_deferred("add_child", orb)

@@ -8,7 +8,7 @@
 [node name="World" type="Node2D"]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.25, 0.25, 0.32, 1)
+color = Color(0.2, 0.22, 0.28, 1)
 
 [node name="FloorDungeon" type="Sprite2D" parent="."]
 texture_repeat = 2
