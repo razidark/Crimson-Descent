@@ -9,7 +9,13 @@ enum EnemyType { BAT, DEMON_WARRIOR, SKELETON }
 var current_hp: int = 35
 var target: Node2D = null
 
+# Bleed Status Effect
+var bleed_damage: int = 0
+var bleed_timer: float = 0.0
+var bleed_tick_timer: float = 0.0
+
 var blood_orb_scene = preload("res://scenes/blood_orb.tscn")
+var dmg_num_scene = preload("res://scenes/damage_number.tscn")
 
 @onready var sprite = $Sprite2D
 @onready var hp_bar = $ProgressBar
@@ -24,6 +30,14 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	sprite.position.y = sin(Time.get_ticks_msec() / 120.0) * 1.5
 
+	# Process Bleed DoT
+	if bleed_timer > 0.0:
+		bleed_timer -= delta
+		bleed_tick_timer -= delta
+		if bleed_tick_timer <= 0.0:
+			bleed_tick_timer = 0.8
+			apply_bleed_tick()
+
 	if not target:
 		var players = get_tree().get_nodes_in_group("player")
 		if players.size() > 0:
@@ -33,7 +47,7 @@ func _physics_process(delta: float) -> void:
 	var diff = target.global_position - global_position
 	var to_player_dir = diff.normalized()
 
-	# Strong boid repulsion so enemies encircle rather than merge into one blob
+	# Repulsion force
 	var separation = Vector2.ZERO
 	var nearby = get_tree().get_nodes_in_group("enemies")
 	for other in nearby:
@@ -58,6 +72,25 @@ func _physics_process(delta: float) -> void:
 		if target.has_method("take_damage"):
 			target.take_damage(attack_damage * delta)
 
+func apply_bleed(dmg_per_tick: int, duration: float) -> void:
+	bleed_damage = dmg_per_tick
+	bleed_timer = duration
+	bleed_tick_timer = 0.5
+
+func apply_bleed_tick() -> void:
+	current_hp -= bleed_damage
+	hp_bar.visible = true
+	hp_bar.value = current_hp
+	spawn_damage_number(bleed_damage, false, true)
+	
+	# Blood red pulse
+	sprite.modulate = Color(2.0, 0.2, 0.2, 1)
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.15)
+
+	if current_hp <= 0:
+		die()
+
 func take_damage(amount: int) -> void:
 	current_hp -= amount
 	hp_bar.visible = true
@@ -69,10 +102,19 @@ func take_damage(amount: int) -> void:
 	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.15)
 
 	if current_hp <= 0:
-		if target and target.has_method("add_kill"):
-			target.add_kill()
-		spawn_blood_drop()
-		queue_free()
+		die()
+
+func spawn_damage_number(amount: int, is_crit: bool, is_bleed: bool) -> void:
+	var num = dmg_num_scene.instantiate()
+	num.global_position = global_position + Vector2(0, -18)
+	get_parent().add_child(num)
+	num.setup(amount, is_crit, is_bleed)
+
+func die() -> void:
+	if target and target.has_method("add_kill"):
+		target.add_kill()
+	spawn_blood_drop()
+	queue_free()
 
 func spawn_blood_drop() -> void:
 	var count = 2 if enemy_type == EnemyType.DEMON_WARRIOR else 1
