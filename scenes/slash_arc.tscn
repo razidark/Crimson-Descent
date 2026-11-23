@@ -1,0 +1,28 @@
+﻿[gd_scene load_steps=5 format=3 uid="uid://slash_arc_scene_01"]
+
+[ext_resource type="Script" path="res://scripts/slash_arc.gd" id="1_slash"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_slash"]
+radius = 16.0
+height = 64.0
+
+[sub_resource type="Gradient" id="Gradient_slash"]
+colors = PackedColorArray(1, 0.2, 0.2, 0.9, 0.9, 0.8, 0.3, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_slash"]
+gradient = SubResource("Gradient_slash")
+width = 64
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.9, 0.9)
+
+[node name="SlashArc" type="Area2D"]
+script = ExtResource("1_slash")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_slash")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_slash")
