@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
-enum EnemyType { BAT, DEMON_WARRIOR, GARGOYLE }
+enum EnemyType { BAT, DEMON_WARRIOR, SKELETON }
 @export var enemy_type: EnemyType = EnemyType.DEMON_WARRIOR
 
-@export var speed: float = 85.0
-@export var max_hp: int = 50
+@export var speed: float = 120.0
+@export var max_hp: int = 40
 @export var attack_damage: float = 12.0
-var current_hp: int = 50
+var current_hp: int = 40
 var target: Node2D = null
 
 var blood_orb_scene = preload("res://scenes/blood_orb.tscn")
@@ -22,8 +22,8 @@ func _ready() -> void:
 	hp_bar.visible = false
 
 func _physics_process(delta: float) -> void:
-	# Subtle breath / idle animation
-	sprite.position.y = sin(Time.get_ticks_msec() / 120.0) * 2.0
+	# Subtle breath / bobbing animation
+	sprite.position.y = sin(Time.get_ticks_msec() / 100.0) * 2.0
 
 	if not target:
 		var players = get_tree().get_nodes_in_group("player")
@@ -32,18 +32,29 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var diff = target.global_position - global_position
-	var dir = diff.normalized()
-	velocity = dir * speed
+	var to_player_dir = diff.normalized()
 
-	if dir.x < 0:
+	# Flocking separation force to prevent ugly clumping
+	var separation = Vector2.ZERO
+	var nearby_enemies = get_tree().get_nodes_in_group("enemies")
+	for other in nearby_enemies:
+		if other != self and is_instance_valid(other):
+			var dist = global_position.distance_to(other.global_position)
+			if dist < 42.0 and dist > 0.1:
+				separation += (global_position - other.global_position).normalized() * (42.0 - dist)
+
+	var move_dir = (to_player_dir * 1.5 + separation * 0.8).normalized()
+	velocity = move_dir * speed
+
+	if move_dir.x < 0:
 		sprite.flip_h = true
-	elif dir.x > 0:
+	elif move_dir.x > 0:
 		sprite.flip_h = false
 
 	move_and_slide()
 
 	# Damage player on contact
-	if global_position.distance_to(target.global_position) < 32.0:
+	if global_position.distance_to(target.global_position) < 30.0:
 		if target.has_method("take_damage"):
 			target.take_damage(attack_damage * delta)
 

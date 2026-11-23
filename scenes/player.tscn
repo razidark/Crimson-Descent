@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" path="res://assets/hero_0.png" id="2_hero_tex"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
-radius = 18.0
-height = 54.0
+radius = 16.0
+height = 40.0
 
 [sub_resource type="Gradient" id="Gradient_light"]
-colors = PackedColorArray(1, 0.45, 0.35, 1, 0, 0, 0, 0)
+colors = PackedColorArray(1, 0.8, 0.65, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
 gradient = SubResource("Gradient_light")
@@ -39,25 +39,25 @@ collision_mask = 1
 script = ExtResource("1_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_hero_tex")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-color = Color(0.98, 0.45, 0.3, 1)
-energy = 1.8
+color = Color(1, 0.75, 0.5, 1)
+energy = 1.3
 shadow_enabled = true
 shadow_filter = 1
 shadow_filter_smooth = 2.0
 texture = SubResource("GradientTexture2D_light")
-texture_scale = 4.0
+texture_scale = 5.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.0, 2.0)
 position_smoothing_enabled = true
-position_smoothing_speed = 7.0
+position_smoothing_speed = 8.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -101,16 +101,16 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 280.0
 offset_top = 14.0
-offset_right = 440.0
+offset_right = 460.0
 offset_bottom = 38.0
-text = "Blood Essence: 0"
+text = "Blood Essence: 0 / 5"
 vertical_alignment = 1
 
 [node name="LevelLabel" type="Label" parent="CanvasLayer/HUD"]
 layout_mode = 0
-offset_left = 460.0
+offset_left = 480.0
 offset_top = 14.0
-offset_right = 580.0
+offset_right = 600.0
 offset_bottom = 38.0
 text = "Rank: 1"
 vertical_alignment = 1
