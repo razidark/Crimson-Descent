@@ -80,7 +80,7 @@ grow_horizontal = 2
 layout_mode = 0
 offset_left = 20.0
 offset_top = 16.0
-offset_right = 260.0
+offset_right = 240.0
 offset_bottom = 36.0
 theme_override_styles/background = SubResource("StyleBoxFlat_player_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_player_fill")
@@ -92,38 +92,79 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "HEALTH"
+text = "HP: 100 / 100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BloodLabel" type="Label" parent="CanvasLayer/HUD"]
-layout_mode = 0
-offset_left = 280.0
-offset_top = 14.0
-offset_right = 460.0
-offset_bottom = 38.0
-text = "Blood Essence: 0 / 5"
-vertical_alignment = 1
+[node name="ResourcePanel" type="Panel" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -620.0
+offset_top = 10.0
+offset_right = -20.0
+offset_bottom = 44.0
+grow_horizontal = 0
 
-[node name="LevelLabel" type="Label" parent="CanvasLayer/HUD"]
-layout_mode = 0
-offset_left = 480.0
-offset_top = 14.0
-offset_right = 600.0
-offset_bottom = 38.0
-text = "Rank: 1"
-vertical_alignment = 1
+[node name="HBox" type="HBoxContainer" parent="CanvasLayer/HUD/ResourcePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_right = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
 
-[node name="KillsLabel" type="Label" parent="CanvasLayer/HUD"]
-layout_mode = 0
-offset_left = 620.0
-offset_top = 14.0
-offset_right = 750.0
-offset_bottom = 38.0
-text = "Kills: 0"
-vertical_alignment = 1
+[node name="WoodLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
+layout_mode = 2
+text = "Wood: 0"
 
-[node name="UpgradePanel" type="PanelContainer" parent="CanvasLayer/HUD"]
+[node name="OreLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
+layout_mode = 2
+text = "Ore: 0"
+
+[node name="HerbLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
+layout_mode = 2
+text = "Herb: 0"
+
+[node name="MeatLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
+layout_mode = 2
+text = "Meat: 0"
+
+[node name="CoinLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
+layout_mode = 2
+text = "Gold: 0"
+
+[node name="CraftPrompt" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -40.0
+offset_right = 320.0
+offset_bottom = -16.0
+grow_vertical = 0
+text = "[C] or [TAB]: Open Crafting  |  [1]: Drink Potion"
+
+[node name="MessageBanner" type="Label" parent="CanvasLayer/HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 70.0
+offset_right = 250.0
+offset_bottom = 100.0
+grow_horizontal = 2
+text = "Harvested Wood"
+horizontal_alignment = 1
+
+[node name="CraftingPanel" type="PanelContainer" parent="CanvasLayer"]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -132,32 +173,43 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -260.0
-offset_top = -140.0
+offset_top = -180.0
 offset_right = 260.0
-offset_bottom = 140.0
+offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HUD/UpgradePanel"]
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/CraftingPanel"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="CanvasLayer/HUD/UpgradePanel/VBox"]
+[node name="Title" type="Label" parent="CanvasLayer/CraftingPanel/VBox"]
 layout_mode = 2
-text = "--- BLOOD BLESSING UNLOCKED ---"
+theme_override_font_sizes/font_size = 20
+text = "FORGE & SURVIVAL CRAFTING"
 horizontal_alignment = 1
 
-[node name="BtnBlade" type="Button" parent="CanvasLayer/HUD/UpgradePanel/VBox"]
+[node name="BtnJerky" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
 layout_mode = 2
-text = "[1] Crimson Cleave: +35% Attack Damage & Slash Width"
+text = "Cured Jerky: Restores 40 HP  (Req: 1 Meat, 1 Herb)"
 
-[node name="BtnSwift" type="Button" parent="CanvasLayer/HUD/UpgradePanel/VBox"]
+[node name="BtnPotion" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
 layout_mode = 2
-text = "[2] Vampire Wings: +25% Movement Speed & Lower Dash Cooldown"
+text = "Vitality Potion: Restores 50 HP on [1]  (Req: 2 Herbs)"
 
-[node name="BtnLeech" type="Button" parent="CanvasLayer/HUD/UpgradePanel/VBox"]
+[node name="BtnBlade" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
 layout_mode = 2
-text = "[3] Soul Drinker: Instantly restore 50% HP & gain +20 Max HP"
+text = "Reinforce Blade: +15 Attack Damage  (Req: 3 Ore, 2 Wood)"
+
+[node name="BtnArmor" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+layout_mode = 2
+text = "Plated Beast Armor: +40 Max HP  (Req: 4 Ore, 2 Meat)"
+
+[node name="CloseBtn" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Close"
 
 [node name="PauseMenu" type="PanelContainer" parent="CanvasLayer"]
 process_mode = 2

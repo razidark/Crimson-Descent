@@ -1,30 +1,124 @@
-[gd_scene load_steps=5 format=3 uid="uid://world_scene_01"]
+[gd_scene load_steps=6 format=3 uid="uid://world_scene_01"]
 
 [ext_resource type="Texture2D" path="res://assets/tile_floor.png" id="1_floor_tex"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://scenes/enemy.tscn" id="4_enemy"]
-[ext_resource type="Script" path="res://scripts/spawner.gd" id="5_spawner"]
+[ext_resource type="PackedScene" path="res://scenes/resource_node.tscn" id="3_node"]
+[ext_resource type="PackedScene" path="res://scenes/wild_beast.tscn" id="4_beast"]
+[ext_resource type="PackedScene" path="res://scenes/wall.tscn" id="5_wall"]
 
 [node name="World" type="Node2D"]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.2, 0.22, 0.28, 1)
+color = Color(0.24, 0.25, 0.32, 1)
 
 [node name="FloorDungeon" type="Sprite2D" parent="."]
 texture_repeat = 2
-position = Vector2(640, 360)
+position = Vector2(800, 600)
 texture = ExtResource("1_floor_tex")
 region_enabled = true
-region_rect = Rect2(0, 0, 4000, 3000)
+region_rect = Rect2(0, 0, 5000, 4000)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(640, 360)
 
-[node name="EnemySpawner" type="Node2D" parent="."]
-script = ExtResource("5_spawner")
+[node name="ResourceNodes" type="Node2D" parent="."]
 
-[node name="E1" parent="." instance=ExtResource("4_enemy")]
-position = Vector2(480, 260)
+[node name="Crate1" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(500, 260)
+node_type = 0
 
-[node name="E2" parent="." instance=ExtResource("4_enemy")]
-position = Vector2(800, 260)
+[node name="Crate2" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(530, 240)
+node_type = 0
+
+[node name="Crate3" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(800, 280)
+node_type = 0
+
+[node name="Crate4" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(300, 500)
+node_type = 0
+
+[node name="OreVein1" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(350, 200)
+node_type = 1
+
+[node name="OreVein2" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(900, 480)
+node_type = 1
+
+[node name="OreVein3" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(1050, 200)
+node_type = 1
+
+[node name="Herb1" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(720, 480)
+node_type = 2
+
+[node name="Herb2" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(420, 420)
+node_type = 2
+
+[node name="Herb3" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(850, 150)
+node_type = 2
+
+[node name="Chest1" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(1100, 360)
+node_type = 3
+
+[node name="Chest2" parent="ResourceNodes" instance=ExtResource("3_node")]
+position = Vector2(200, 360)
+node_type = 3
+
+[node name="Wildlife" type="Node2D" parent="."]
+
+[node name="CaveBoar1" parent="Wildlife" instance=ExtResource("4_beast")]
+position = Vector2(380, 320)
+beast_type = 0
+
+[node name="CaveBoar2" parent="Wildlife" instance=ExtResource("4_beast")]
+position = Vector2(950, 320)
+beast_type = 0
+
+[node name="ShadowWolf1" parent="Wildlife" instance=ExtResource("4_beast")]
+position = Vector2(640, 100)
+beast_type = 1
+is_hostile = true
+
+[node name="GiantSpider1" parent="Wildlife" instance=ExtResource("4_beast")]
+position = Vector2(640, 620)
+beast_type = 2
+is_hostile = true
+
+[node name="BoundaryWalls" type="Node2D" parent="."]
+
+[node name="WallN1" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(160, -64)
+
+[node name="WallN2" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(400, -64)
+
+[node name="WallN3" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(640, -64)
+
+[node name="WallN4" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(880, -64)
+
+[node name="WallN5" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(1120, -64)
+
+[node name="WallS1" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(160, 784)
+
+[node name="WallS2" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(400, 784)
+
+[node name="WallS3" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(640, 784)
+
+[node name="WallS4" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(880, 784)
+
+[node name="WallS5" parent="BoundaryWalls" instance=ExtResource("5_wall")]
+position = Vector2(1120, 784)
