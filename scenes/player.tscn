@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://player_scene_01"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/hero_class_0.png" id="2_hero_tex"]
+[ext_resource type="Texture2D" path="res://assets/hero_0.png" id="2_hero_tex"]
 [ext_resource type="Script" path="res://scripts/audio_manager.gd" id="3_audio"]
 [ext_resource type="Script" path="res://scripts/camera_shake.gd" id="4_camera"]
 [ext_resource type="Script" path="res://scripts/minimap.gd" id="5_minimap"]
