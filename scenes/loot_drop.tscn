@@ -1,20 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://loot_drop_scene"]
+[gd_scene load_steps=3 format=3 uid="uid://loot_drop_scene"]
 
 [ext_resource type="Script" path="res://scripts/loot_drop.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/loot_wood.png" id="2_tex"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
-radius = 12.0
+[ext_resource type="Texture2D" path="res://assets/gothic/item_wood_bark.png" id="2_tex"]
 
 [node name="LootDrop" type="Node2D"]
+z_index = 2
 script = ExtResource("1_script")
+
+[node name="Beam" type="ColorRect" parent="."]
+visible = false
+offset_left = -6.0
+offset_top = -90.0
+offset_right = 6.0
+offset_bottom = 6.0
+color = Color(1, 0.85, 0.3, 0.45)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_tex")
-
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_1")

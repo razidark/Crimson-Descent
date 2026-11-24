@@ -1,54 +1,44 @@
-[gd_scene load_steps=10 format=3 uid="uid://player_scene_01"]
+[gd_scene load_steps=13 format=3 uid="uid://player_scene_01"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/hero_0.png" id="2_hero_tex"]
+[ext_resource type="Texture2D" path="res://assets/gothic/hero_knight_0.png" id="2_hero_tex"]
 [ext_resource type="Script" path="res://scripts/audio_manager.gd" id="3_audio"]
 [ext_resource type="Script" path="res://scripts/camera_shake.gd" id="4_camera"]
 [ext_resource type="Script" path="res://scripts/minimap.gd" id="5_minimap"]
+[ext_resource type="Texture2D" path="res://assets/gothic/light_radial.png" id="6_light"]
+[ext_resource type="Texture2D" path="res://assets/gothic/shadow_blob.png" id="7_shadow"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
-radius = 12.0
-height = 28.0
+radius = 14.0
+height = 36.0
 
-[sub_resource type="Gradient" id="Gradient_light"]
-colors = PackedColorArray(1, 0.9, 0.8, 1, 0, 0, 0, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.85, 0.14, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
-gradient = SubResource("Gradient_light")
-width = 256
-height = 256
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.95, 0.95)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_fill"]
+bg_color = Color(0.18, 0.55, 0.92, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_minimap"]
-bg_color = Color(0.08, 0.06, 0.1, 0.85)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_fill"]
+bg_color = Color(0.75, 0.25, 0.85, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.06, 0.05, 0.09, 0.9)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.4, 0.2, 0.3, 0.8)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_fill"]
-bg_color = Color(0.85, 0.15, 0.25, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_bg"]
-bg_color = Color(0.08, 0.05, 0.1, 0.9)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.3, 0.1, 0.15, 1)
+border_color = Color(0.28, 0.14, 0.2, 1)
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 4
 collision_layer = 2
 collision_mask = 1
 script = ExtResource("1_script")
@@ -56,23 +46,29 @@ script = ExtResource("1_script")
 [node name="AudioManager" type="Node" parent="."]
 script = ExtResource("3_audio")
 
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 22)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("7_shadow")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(0, 6)
 shape = SubResource("CapsuleShape2D_1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.9, 0.9)
 texture = ExtResource("2_hero_tex")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-color = Color(1, 0.92, 0.82, 1)
-energy = 1.0
+color = Color(1, 0.9, 0.78, 1)
+energy = 1.15
 shadow_enabled = true
 shadow_filter = 1
-texture = SubResource("GradientTexture2D_light")
-texture_scale = 5.0
+texture = ExtResource("6_light")
+texture_scale = 3.2
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.0, 1.0)
+zoom = Vector2(0.95, 0.95)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 script = ExtResource("4_camera")
@@ -88,127 +84,122 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopPanel" type="Panel" parent="CanvasLayer/HUD"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 54.0
-grow_horizontal = 2
-
-[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD"]
+[node name="TopLeft" type="VBoxContainer" parent="CanvasLayer/HUD"]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 16.0
-offset_right = 240.0
-offset_bottom = 36.0
-theme_override_styles/background = SubResource("StyleBoxFlat_player_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_player_fill")
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 256.0
+offset_bottom = 96.0
+theme_override_constants/separation = 4
+
+[node name="ClassLabel" type="Label" parent="CanvasLayer/HUD/TopLeft"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 13
+text = "Razielim Knight (Lv.1)"
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/TopLeft"]
+custom_minimum_size = Vector2(230, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
 value = 100.0
 show_percentage = false
 
-[node name="HpText" type="Label" parent="CanvasLayer/HUD/HealthBar"]
+[node name="HpText" type="Label" parent="CanvasLayer/HUD/TopLeft/HealthBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "HP: 100 / 100"
+theme_override_font_sizes/font_size = 11
+text = "HP: 130 / 130"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WeaponLabel" type="Label" parent="CanvasLayer/HUD"]
-layout_mode = 0
-offset_left = 260.0
-offset_top = 16.0
-offset_right = 560.0
-offset_bottom = 38.0
-text = "[Q] Weapon: Blood Greatsword"
+[node name="ManaBar" type="ProgressBar" parent="CanvasLayer/HUD/TopLeft"]
+custom_minimum_size = Vector2(230, 15)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mp_fill")
+value = 100.0
+show_percentage = false
+
+[node name="ManaText" type="Label" parent="CanvasLayer/HUD/TopLeft/ManaBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_font_sizes/font_size = 10
+text = "MP: 60 / 60"
+horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResourcePanel" type="Panel" parent="CanvasLayer/HUD"]
+[node name="XpBar" type="ProgressBar" parent="CanvasLayer/HUD/TopLeft"]
+custom_minimum_size = Vector2(230, 6)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xp_fill")
+value = 0.0
+show_percentage = false
+
+[node name="FloorLabel" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 12.0
+offset_right = 180.0
+offset_bottom = 36.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.95, 0.78, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 15
+text = "Circle I: The Sunken Crypts"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -280.0
+offset_top = 36.0
+offset_right = 280.0
+offset_bottom = 58.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 12
+text = "Wood:0 Ore:0 Herb:0 Meat:0 Bones:0 Gold:0 Kills:0"
+horizontal_alignment = 1
+
+[node name="MinimapPanel" type="Panel" parent="CanvasLayer/HUD"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -620.0
-offset_top = 10.0
-offset_right = -20.0
-offset_bottom = 44.0
+offset_left = -196.0
+offset_top = 12.0
+offset_right = -16.0
+offset_bottom = 144.0
 grow_horizontal = 0
+script = ExtResource("5_minimap")
 
-[node name="HBox" type="HBoxContainer" parent="CanvasLayer/HUD/ResourcePanel"]
+[node name="MapTexture" type="TextureRect" parent="CanvasLayer/HUD/MinimapPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_right = -10.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
-
-[node name="WoodLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
-layout_mode = 2
-text = "Wood: 0"
-
-[node name="OreLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
-layout_mode = 2
-text = "Ore: 0"
-
-[node name="HerbLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
-layout_mode = 2
-text = "Herb: 0"
-
-[node name="MeatLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
-layout_mode = 2
-text = "Meat: 0"
-
-[node name="CoinLabel" type="Label" parent="CanvasLayer/HUD/ResourcePanel/HBox"]
-layout_mode = 2
-text = "Gold: 0"
-
-[node name="MinimapPanel" type="Panel" parent="CanvasLayer/HUD"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -160.0
-offset_top = -100.0
-offset_right = -20.0
-offset_bottom = -20.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_minimap")
-script = ExtResource("5_minimap")
-
-[node name="Title" type="Label" parent="CanvasLayer/HUD/MinimapPanel"]
-layout_mode = 0
-offset_left = 6.0
-offset_top = 4.0
-offset_right = 100.0
-offset_bottom = 18.0
-theme_override_font_sizes/font_size = 9
-theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 0.8)
-text = "CATACOMBS MAP"
-
-[node name="PlayerMarker" type="ColorRect" parent="CanvasLayer/HUD/MinimapPanel"]
-layout_mode = 0
-offset_right = 6.0
-offset_bottom = 6.0
-color = Color(0.95, 0.2, 0.3, 1)
-
-[node name="CraftPrompt" type="Label" parent="CanvasLayer/HUD"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -40.0
-offset_right = 600.0
-offset_bottom = -16.0
-grow_vertical = 0
-text = "[Q]: Switch Weapon  |  [C] / [TAB]: Crafting  |  [1]: Potion  |  [2]: Place Spike Trap"
+stretch_mode = 5
 
 [node name="MessageBanner" type="Label" parent="CanvasLayer/HUD"]
 visible = false
@@ -216,13 +207,38 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -250.0
-offset_top = 70.0
-offset_right = 250.0
-offset_bottom = 100.0
+offset_left = -260.0
+offset_top = 74.0
+offset_right = 260.0
+offset_bottom = 102.0
 grow_horizontal = 2
-text = "Equipped Weapon"
+theme_override_colors/font_color = Color(1, 0.9, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 14
+text = "Notification"
 horizontal_alignment = 1
+
+[node name="HotbarPanel" type="PanelContainer" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -44.0
+offset_right = 450.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HotbarLabel" type="Label" parent="CanvasLayer/HUD/HotbarPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "[1] Sword  [2] Daggers  [3] Bow  [4] Staff  |  [E] Nova  |  [F] Potion  |  [G] Trap  |  [C] Gear"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CraftingPanel" type="PanelContainer" parent="CanvasLayer"]
 visible = false
@@ -232,52 +248,134 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -270.0
-offset_top = -220.0
-offset_right = 270.0
-offset_bottom = 220.0
+offset_left = -400.0
+offset_top = -230.0
+offset_right = 400.0
+offset_bottom = 230.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="CanvasLayer/CraftingPanel"]
+[node name="MainHBox" type="HBoxContainer" parent="CanvasLayer/CraftingPanel"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 20
 
-[node name="Title" type="Label" parent="CanvasLayer/CraftingPanel/VBox"]
+[node name="GearCol" type="VBoxContainer" parent="CanvasLayer/CraftingPanel/MainHBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "FORGE & SURVIVAL CRAFTING"
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="CanvasLayer/CraftingPanel/MainHBox/GearCol"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "EQUIPPED RELICS & BACKPACK"
 horizontal_alignment = 1
 
-[node name="BtnJerky" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+[node name="EquipLabel" type="Label" parent="CanvasLayer/CraftingPanel/MainHBox/GearCol"]
 layout_mode = 2
-text = "Cured Jerky: Restores 40 HP  (Req: 1 Meat, 1 Herb)"
+theme_override_font_sizes/font_size = 12
+text = "Weapon: None"
+autowrap_mode = 2
 
-[node name="BtnPotion" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+[node name="RelicScroll" type="ScrollContainer" parent="CanvasLayer/CraftingPanel/MainHBox/GearCol"]
 layout_mode = 2
-text = "Vitality Potion: Restores 50 HP on [1]  (Req: 2 Herbs)"
+size_flags_vertical = 3
 
-[node name="BtnArrows" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+[node name="RelicList" type="VBoxContainer" parent="CanvasLayer/CraftingPanel/MainHBox/GearCol/RelicScroll"]
 layout_mode = 2
-text = "Fletch +10 Arrows: Bow Ammunition  (Req: 2 Wood, 1 Ore)"
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
 
-[node name="BtnTrap" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+[node name="CloseBtn" type="Button" parent="CanvasLayer/CraftingPanel/MainHBox/GearCol"]
 layout_mode = 2
-text = "Craft Spike Trap: Place with [2]  (Req: 2 Wood, 1 Ore)"
+text = "Close [C]"
 
-[node name="BtnBlade" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+[node name="CraftCol" type="VBoxContainer" parent="CanvasLayer/CraftingPanel/MainHBox"]
 layout_mode = 2
-text = "Reinforce Blade: +15 Attack Damage  (Req: 3 Ore, 2 Wood)"
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
 
-[node name="BtnArmor" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
+[node name="Title" type="Label" parent="CanvasLayer/CraftingPanel/MainHBox/CraftCol"]
 layout_mode = 2
-text = "Plated Beast Armor: +40 Max HP  (Req: 4 Ore, 2 Meat)"
+theme_override_font_sizes/font_size = 16
+text = "SURVIVAL FORGE & ALCHEMY"
+horizontal_alignment = 1
 
-[node name="CloseBtn" type="Button" parent="CanvasLayer/CraftingPanel/VBox"]
-custom_minimum_size = Vector2(100, 32)
+[node name="BtnJerky" type="Button" parent="CanvasLayer/CraftingPanel/MainHBox/CraftCol"]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Close"
+text = "Roast Beast Meal (+60HP/+30MP) [1 Meat, 1 Herb]"
+
+[node name="BtnPotion" type="Button" parent="CanvasLayer/CraftingPanel/MainHBox/CraftCol"]
+layout_mode = 2
+text = "Brew Crimson Elixir (+1 Potion) [2 Herbs]"
+
+[node name="BtnArrows" type="Button" parent="CanvasLayer/CraftingPanel/MainHBox/CraftCol"]
+layout_mode = 2
+text = "Fletch +15 Arrows [1 Wood, 1 Ore]"
+
+[node name="BtnTrap" type="Button" parent="CanvasLayer/CraftingPanel/MainHBox/CraftCol"]
+layout_mode = 2
+text = "Forge +2 Spike Traps [1 Wood, 1 Ore]"
+
+[node name="BtnBlade" type="Button" parent="CanvasLayer/CraftingPanel/MainHBox/CraftCol"]
+layout_mode = 2
+text = "Hone Edge (+10 Base Atk) [3 Ore]"
+
+[node name="BtnArmor" type="Button" parent="CanvasLayer/CraftingPanel/MainHBox/CraftCol"]
+layout_mode = 2
+text = "Temper Dark Plate (+30HP, +2Def) [3 Ore, 2 Bones]"
+
+[node name="LevelUpPanel" type="PanelContainer" parent="CanvasLayer"]
+process_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -330.0
+offset_top = -140.0
+offset_right = 330.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/LevelUpPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="CanvasLayer/LevelUpPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+text = "★ BLOOD ASCENSION — CHOOSE A BLESSING ★"
+horizontal_alignment = 1
+
+[node name="CardsHBox" type="HBoxContainer" parent="CanvasLayer/LevelUpPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Card0" type="Button" parent="CanvasLayer/LevelUpPanel/VBox/CardsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Blessing 1"
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Card1" type="Button" parent="CanvasLayer/LevelUpPanel/VBox/CardsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Blessing 2"
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Card2" type="Button" parent="CanvasLayer/LevelUpPanel/VBox/CardsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Blessing 3"
+icon_alignment = 1
+vertical_icon_alignment = 0
 
 [node name="PauseMenu" type="PanelContainer" parent="CanvasLayer"]
 process_mode = 2
@@ -297,7 +395,7 @@ grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CanvasLayer/PauseMenu"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
 [node name="Label" type="Label" parent="CanvasLayer/PauseMenu/VBox"]
 layout_mode = 2
@@ -310,7 +408,7 @@ text = "Resume"
 
 [node name="RestartBtn" type="Button" parent="CanvasLayer/PauseMenu/VBox"]
 layout_mode = 2
-text = "Restart"
+text = "Restart Run"
 
 [node name="QuitBtn" type="Button" parent="CanvasLayer/PauseMenu/VBox"]
 layout_mode = 2
@@ -325,19 +423,21 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -180.0
+offset_left = -190.0
 offset_top = -140.0
-offset_right = 180.0
+offset_right = 190.0
 offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CanvasLayer/GameOverScreen"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
 [node name="Title" type="Label" parent="CanvasLayer/GameOverScreen/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.2, 0.25, 1)
+theme_override_font_sizes/font_size = 20
 text = "YOU HAVE FALLEN"
 horizontal_alignment = 1
 
@@ -351,46 +451,5 @@ layout_mode = 2
 text = "Descend Again"
 
 [node name="MenuBtn" type="Button" parent="CanvasLayer/GameOverScreen/VBox"]
-layout_mode = 2
-text = "Main Menu"
-
-[node name="VictoryScreen" type="PanelContainer" parent="CanvasLayer"]
-process_mode = 2
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -160.0
-offset_right = 220.0
-offset_bottom = 160.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBox" type="VBoxContainer" parent="CanvasLayer/VictoryScreen"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Title" type="Label" parent="CanvasLayer/VictoryScreen/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
-theme_override_font_sizes/font_size = 24
-text = "★ GUARDIAN VANQUISHED ★"
-horizontal_alignment = 1
-
-[node name="Subtitle" type="Label" parent="CanvasLayer/VictoryScreen/VBox"]
-layout_mode = 2
-text = "You have conquered the descent and unsealed the deeper realms."
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="AgainBtn" type="Button" parent="CanvasLayer/VictoryScreen/VBox"]
-layout_mode = 2
-text = "Play Again"
-
-[node name="MenuBtn" type="Button" parent="CanvasLayer/VictoryScreen/VBox"]
 layout_mode = 2
 text = "Main Menu"

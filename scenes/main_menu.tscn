@@ -1,18 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://main_menu_01"]
+[gd_scene load_steps=6 format=3 uid="uid://main_menu_01"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu_script"]
-[ext_resource type="Texture2D" path="res://assets/hero_class_0.png" id="2_hero_tex"]
+[ext_resource type="Texture2D" path="res://assets/gothic/hero_knight_0.png" id="2_k"]
+[ext_resource type="Texture2D" path="res://assets/gothic/hero_mage_0.png" id="3_m"]
+[ext_resource type="Texture2D" path="res://assets/gothic/hero_stalker_0.png" id="4_s"]
+[ext_resource type="Texture2D" path="res://assets/gothic/hero_assassin_0.png" id="5_a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
-bg_color = Color(0.06, 0.04, 0.08, 1)
+bg_color = Color(0.045, 0.035, 0.065, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-bg_color = Color(0.12, 0.08, 0.15, 0.95)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.10, 0.08, 0.14, 0.95)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.6, 0.15, 0.2, 1)
+border_color = Color(0.42, 0.16, 0.22, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
@@ -46,55 +49,185 @@ grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="CenterContainer/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.15, 0.25, 1)
-theme_override_font_sizes/font_size = 46
+theme_override_colors/font_color = Color(0.92, 0.16, 0.26, 1)
+theme_override_font_sizes/font_size = 44
 text = "CRIMSON DESCENT"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="CenterContainer/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.65, 0.75, 1)
-theme_override_font_sizes/font_size = 18
-text = "Legacy of the Blood Sovereign"
+theme_override_colors/font_color = Color(0.72, 0.68, 0.78, 1)
+theme_override_font_sizes/font_size = 15
+text = "Gothic Exploration, Gathering, Hunting & Action-Roguelike"
 horizontal_alignment = 1
 
-[node name="ClassContainer" type="VBoxContainer" parent="CenterContainer/VBox"]
+[node name="ClassCardsRow" type="HBoxContainer" parent="CenterContainer/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 14
 
-[node name="HeroIcon" type="TextureRect" parent="CenterContainer/VBox/ClassContainer"]
+[node name="Card0" type="PanelContainer" parent="CenterContainer/VBox/ClassCardsRow"]
+custom_minimum_size = Vector2(180, 175)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/VBox/ClassCardsRow/Card0"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/VBox/ClassCardsRow/Card0/VBox"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_hero_tex")
+texture = ExtResource("2_k")
 stretch_mode = 5
 
-[node name="ClassBtn" type="Button" parent="CenterContainer/VBox/ClassContainer"]
-custom_minimum_size = Vector2(260, 36)
+[node name="NameLabel" type="Label" parent="CenterContainer/VBox/ClassCardsRow/Card0/VBox"]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Class: Blood Knight (Click to Change)"
+theme_override_font_sizes/font_size = 13
+text = "Razielim Knight"
+horizontal_alignment = 1
 
-[node name="StartBtn" type="Button" parent="CenterContainer/VBox"]
-custom_minimum_size = Vector2(260, 42)
+[node name="StatsLabel" type="Label" parent="CenterContainer/VBox/ClassCardsRow/Card0/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 11
+text = "HP:130 MP:60 Atk:28"
+horizontal_alignment = 1
+
+[node name="SelectBtn" type="Button" parent="CenterContainer/VBox/ClassCardsRow/Card0"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Choose"
+
+[node name="Card1" type="PanelContainer" parent="CenterContainer/VBox/ClassCardsRow"]
+custom_minimum_size = Vector2(180, 175)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/VBox/ClassCardsRow/Card1"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/VBox/ClassCardsRow/Card1/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("3_m")
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CenterContainer/VBox/ClassCardsRow/Card1/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Spectral Mage"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="CenterContainer/VBox/ClassCardsRow/Card1/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 11
+text = "HP:95 MP:120 Atk:25"
+horizontal_alignment = 1
+
+[node name="SelectBtn" type="Button" parent="CenterContainer/VBox/ClassCardsRow/Card1"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Choose"
+
+[node name="Card2" type="PanelContainer" parent="CenterContainer/VBox/ClassCardsRow"]
+custom_minimum_size = Vector2(180, 175)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/VBox/ClassCardsRow/Card2"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/VBox/ClassCardsRow/Card2/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("4_s")
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CenterContainer/VBox/ClassCardsRow/Card2/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Beast Stalker"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="CenterContainer/VBox/ClassCardsRow/Card2/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 11
+text = "HP:110 MP:80 Atk:26"
+horizontal_alignment = 1
+
+[node name="SelectBtn" type="Button" parent="CenterContainer/VBox/ClassCardsRow/Card2"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Choose"
+
+[node name="Card3" type="PanelContainer" parent="CenterContainer/VBox/ClassCardsRow"]
+custom_minimum_size = Vector2(180, 175)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/VBox/ClassCardsRow/Card3"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/VBox/ClassCardsRow/Card3/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("5_a")
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CenterContainer/VBox/ClassCardsRow/Card3/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Nightstalker"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="CenterContainer/VBox/ClassCardsRow/Card3/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 11
+text = "HP:95 MP:80 Atk:23"
+horizontal_alignment = 1
+
+[node name="SelectBtn" type="Button" parent="CenterContainer/VBox/ClassCardsRow/Card3"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Choose"
+
+[node name="SelectedDesc" type="Label" parent="CenterContainer/VBox"]
+custom_minimum_size = Vector2(720, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 13
+text = "Class description"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BtnRow" type="HBoxContainer" parent="CenterContainer/VBox"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_constants/separation = 16
+
+[node name="StartBtn" type="Button" parent="CenterContainer/VBox/BtnRow"]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
 text = "Begin Descent"
 
-[node name="HowBtn" type="Button" parent="CenterContainer/VBox"]
-custom_minimum_size = Vector2(260, 36)
+[node name="HowBtn" type="Button" parent="CenterContainer/VBox/BtnRow"]
+custom_minimum_size = Vector2(150, 44)
 layout_mode = 2
-size_flags_horizontal = 4
 text = "How to Play"
 
-[node name="QuitBtn" type="Button" parent="CenterContainer/VBox"]
-custom_minimum_size = Vector2(260, 36)
+[node name="QuitBtn" type="Button" parent="CenterContainer/VBox/BtnRow"]
+custom_minimum_size = Vector2(120, 44)
 layout_mode = 2
-size_flags_horizontal = 4
 text = "Exit"
 
 [node name="InstructionsPanel" type="PanelContainer" parent="."]
@@ -105,32 +238,34 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -240.0
+offset_left = -260.0
 offset_top = -180.0
-offset_right = 240.0
+offset_right = 260.0
 offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBox" type="VBoxContainer" parent="InstructionsPanel"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="InstructionsPanel/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
 text = "HOW TO PLAY"
 horizontal_alignment = 1
 
 [node name="Desc" type="Label" parent="InstructionsPanel/VBox"]
 layout_mode = 2
-text = "• WASD / Arrow Keys: Move
-• Left Click: Weapon Attack
-• [Q]: Switch Weapon (Greatsword, Twin Daggers, Bow)
-• [C] or [TAB]: Survival Crafting
-• [1]: Drink Potion  |  [2]: Place Spike Trap
-• ESC: Pause Game"
+text = "• WASD / Arrow Keys: Move  |  Space: Spectral Dash
+• Left Click (Hold or Tap): Attack toward cursor
+• [1-4] or [Q]: Switch Weapons (Sword, Daggers, Bow, Staff)
+• [E]: Class Signature Ultimate  |  Mouse Wheel: Zoom
+• [C] / [I] / [TAB]: Relics Backpack & Survival Forge
+• [F]: Drink Potion  |  [G]: Place Hunting Spike Trap
+• [R]: Descend Portal (after defeating Floor Boss)
+• [M]: Toggle Audio  |  [ESC]: Pause"
 autowrap_mode = 2
 
 [node name="CloseBtn" type="Button" parent="InstructionsPanel/VBox"]

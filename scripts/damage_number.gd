@@ -2,25 +2,34 @@ extends Node2D
 
 @onready var label = $Label
 
-func setup(amount: int, is_crit: bool = false, is_bleed: bool = false) -> void:
+func _ready() -> void:
+	var mat = CanvasItemMaterial.new()
+	mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+	material = mat
+
+func setup(amount: int, is_crit: bool = false, is_bleed: bool = false, custom_text: String = "", custom_color: Color = Color.WHITE) -> void:
 	if not is_node_ready():
 		await ready
 
-	label.text = str(amount)
-	if is_crit:
-		label.text = "%d CRIT!" % amount
+	if custom_text != "":
+		label.text = custom_text
+		label.modulate = custom_color
+		scale = Vector2(1.05, 1.05)
+	elif is_crit:
+		label.text = "%d!" % amount
 		label.modulate = Color(1.0, 0.85, 0.2, 1)
-		scale = Vector2(1.3, 1.3)
+		scale = Vector2(1.35, 1.35)
 	elif is_bleed:
 		label.text = "%d" % amount
-		label.modulate = Color(0.9, 0.15, 0.2, 1)
+		label.modulate = Color(0.95, 0.2, 0.3, 1)
+		scale = Vector2(0.9, 0.9)
 	else:
-		label.modulate = Color(1, 1, 1, 1)
+		label.text = str(amount)
+		label.modulate = custom_color
 
-	# Bouncing floating tween
 	var tween = create_tween().set_parallel(true)
-	var random_x = randf_range(-18, 18)
-	tween.tween_property(self, "position:y", position.y - 36.0, 0.55).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "position:x", position.x + random_x, 0.55)
-	tween.tween_property(self, "modulate:a", 0.0, 0.55).set_delay(0.2)
+	var random_x = randf_range(-16, 16)
+	tween.tween_property(self, "position:y", position.y - 38.0, 0.65).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "position:x", position.x + random_x, 0.65)
+	tween.tween_property(self, "modulate:a", 0.0, 0.45).set_delay(0.25)
 	tween.chain().tween_callback(queue_free)
